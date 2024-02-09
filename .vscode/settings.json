@@ -5,4 +5,8 @@
   },
   "typescript.tsdk": "node_modules/typescript/lix",
   "typescript.enablePromptUseWorkspaceTsdk": true,
+  "cSpell.words": [
+    "Roboto"
+  ],
+  "git.ignoreLimitWarning": true,
 }
