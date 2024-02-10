@@ -1,15 +1,7 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 import { Roboto } from 'next/font/google';
-declare module '@mui/material/styles' {
-  interface Palette {
-    ochre: Palette['primary'];
-  }
 
-  interface PaletteOptions {
-    ochre?: PaletteOptions['primary'];
-  }
-}
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
@@ -23,12 +15,25 @@ let theme = createTheme({
 
 theme = createTheme(theme, {
   // Custom colors created with augmentColor go here
+
   palette: {
-    salmon: theme.palette.augmentColor({
+    primary: theme.palette.augmentColor({
       color: {
-        main: '#FF5733'
+        main: '#2b2c30'
       },
-      name: 'salmon'
+      name: 'primary'
+    }),
+    secondary: theme.palette.augmentColor({
+      color: {
+        main: '#f85c1f'
+      },
+      name: 'secondary'
+    }),
+    offWhite: theme.palette.augmentColor({
+      color: {
+        main: '#f2f2f2'
+      },
+      name: 'offWhite'
     })
   }
 });
