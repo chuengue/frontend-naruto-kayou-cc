@@ -7,12 +7,14 @@ export const loginSchema = z.object({
     .refine(
       value => {
         if (value.includes('@')) {
-          return /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i.test(value);
+          return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(
+            value
+          );
         } else {
           return true;
         }
       },
       { message: 'Formato de e-mail inválido' }
     ),
-  password: z.string().min(8, { message: 'Campo invalido' })
+  password: z.string().min(8, { message: 'Campo inválido' })
 });

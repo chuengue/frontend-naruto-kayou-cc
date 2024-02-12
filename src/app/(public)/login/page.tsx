@@ -56,15 +56,15 @@ export default function LoginPage() {
             sx={{
               padding: 4,
               borderRadius: 2.5,
-              width: '424px',
-              height: '720px'
+              width: 'auto',
+              height: 'auto'
             }}
           >
-            <Box>
+            <Box sx={{ width: { xs: '300px', lg: '400px' } }}>
               <Stack alignItems="center" sx={{ py: 8 }}>
                 <img src="/assets/logo.png" width={100} height={40} />
               </Stack>
-              <Stack id="inputs" spacing={2} width={'100%'}>
+              <Stack id="inputs" spacing={2}>
                 <TextField
                   type="text"
                   label="E-mail ou nome de usuário"

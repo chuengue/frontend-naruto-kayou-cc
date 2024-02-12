@@ -3,7 +3,9 @@ export const APP_ROUTES = {
     login: {
       name: '/login'
     },
-
+    register: {
+      name: '/register'
+    },
     home: {
       name: '/home'
     }
