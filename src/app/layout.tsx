@@ -1,5 +1,10 @@
+'use client';
+import { AuthProvider } from '@/contexts/authContext/authContext';
+import { ReactQueryClientProvider } from '@/services/queryClient';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
+
+import { NotiStackProvider } from '@/services/notistackProvider';
 import theme from '../../theme/theme';
 import './globals.css';
 
@@ -14,12 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <ThemeProvider theme={theme}>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <body>
+          <NotiStackProvider>
+            <ThemeProvider theme={theme}>
+              <AuthProvider>
+                <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+              </AuthProvider>
+            </ThemeProvider>
+          </NotiStackProvider>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }

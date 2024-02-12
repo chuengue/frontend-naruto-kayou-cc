@@ -1,9 +1,11 @@
-import { ButtonComponent } from '@/components';
+import { Button } from '@mui/material';
 
 export default function Home() {
   return (
     <>
-      <ButtonComponent color="primary">click !</ButtonComponent>
+      <Button color="offWhite" variant="contained">
+        Click
+      </Button>
     </>
   );
 }

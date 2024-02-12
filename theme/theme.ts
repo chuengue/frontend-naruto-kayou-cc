@@ -8,6 +8,16 @@ const roboto = Roboto({
   display: 'swap'
 });
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    offWhite: Palette['primary'];
+  }
+}
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    offWhite: true;
+  }
+}
 let theme = createTheme({
   // Theme customization goes here as usual, including tonalOffset and/or
   // contrastThreshold as the augmentColor() function relies on these

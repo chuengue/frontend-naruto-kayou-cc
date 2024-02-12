@@ -4,6 +4,7 @@ import { ButtonComponentProps } from './button.types';
 const ButtonComponent: React.FC<ButtonComponentProps> = ({
   children,
   isLoading = false,
+  color,
   titleSize,
   ...buttonProps
 }) => {
@@ -11,7 +12,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
     <Button
       {...buttonProps}
       disabled={buttonProps.disabled || isLoading}
-      color={buttonProps.color ?? 'primary'}
+      color={color ?? 'primary'}
       variant={buttonProps.variant ?? 'contained'}
       sx={{ borderRadius: 2 }}
     >

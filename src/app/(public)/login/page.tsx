@@ -1,5 +1,6 @@
 'use client';
 import Button from '@/components/button';
+import { SignData } from '@/contexts/authContext/authContext.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
@@ -10,9 +11,9 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import theme from '../../../../theme/theme';
+import { AuthContext } from '../../../contexts/authContext/authContext';
 import { LoginFormData } from './login.types';
 import { loginSchema } from './zodSchemas';
 
@@ -27,11 +28,16 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  const { signIn, userData, isLoading } = useContext(AuthContext);
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+
+  const handleSignIn = ({ identifier, password }: SignData) => {
+    signIn({ identifier, password });
   };
 
   return (
@@ -42,9 +48,9 @@ export default function LoginPage() {
         alignItems="center"
         height="100vh"
         width="100vw"
-        bgcolor={theme.palette.offWhite.main}
+        bgcolor="offWhite.main"
       >
-        <form onSubmit={handleSubmit(data => console.log(data))}>
+        <form onSubmit={handleSubmit(data => handleSignIn(data))}>
           <Paper
             elevation={2}
             sx={{
@@ -95,7 +101,9 @@ export default function LoginPage() {
             </Box>
 
             <Stack direction="column" spacing={20} mt={6}>
-              <Button type="submit">Entrar</Button>
+              <Button type="submit" isLoading={isLoading}>
+                Entrar
+              </Button>
               <Stack
                 direction="row"
                 alignItems="center"
