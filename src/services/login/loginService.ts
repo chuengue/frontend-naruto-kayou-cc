@@ -1,6 +1,6 @@
 import { SignData } from '@/contexts/authContext/authContext.types';
 import { AxiosInstance } from 'axios';
-import { UserResponse } from './../contexts/authContext/authContext.types';
+import { UserResponse } from '../../contexts/authContext/authContext.types';
 
 export type ApiType = AxiosInstance;
 

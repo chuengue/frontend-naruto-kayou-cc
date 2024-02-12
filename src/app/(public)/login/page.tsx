@@ -28,7 +28,7 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { signIn, userData, isLoading } = useContext(AuthContext);
+  const { signIn, isLoading } = useContext(AuthContext);
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>

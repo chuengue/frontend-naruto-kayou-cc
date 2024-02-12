@@ -1,14 +1,15 @@
 'use client';
 import { api } from '@/services/api';
-import { SignInService } from '@/services/loginService';
+import { SignInService } from '@/services/login/loginService';
 import { ErrorResponse } from '@/types/Error.types';
+import { User } from '@/types/User.types';
 import { Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useSnackbar } from 'notistack';
 import { createContext, useState } from 'react';
-import { AuthContextInterface, SignData, User } from './authContext.types';
+import { AuthContextInterface, SignData } from './authContext.types';
 
 export const AuthContext = createContext({} as AuthContextInterface);
 
@@ -26,12 +27,17 @@ export const AuthProvider = ({ children }) => {
     },
     onSuccess: data => {
       const results = data?.results;
+
       setCookie('authToken', results?.accessToken, {
         maxAge: 60 * 60 * 24 // 24 Hours
       });
+
       setUserData(results?.user as User);
-      console.log(data);
-      // router.replace('/register');
+
+      api.defaults.headers['Authorization'] =
+        `Bearer ${data?.results.accessToken}`;
+
+      router.replace('/register');
     },
     onError: (error: ErrorResponse) => {
       enqueueSnackbar(
@@ -40,8 +46,6 @@ export const AuthProvider = ({ children }) => {
           variant: 'error'
         }
       );
-
-      console.log(error.response.data.error.message);
     }
   });
 
