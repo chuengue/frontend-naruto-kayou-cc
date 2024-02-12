@@ -1,4 +1,4 @@
-import { getAuthTokenFromCookie } from '@/utils/getAuthTokenFromCookie';
+import { getAuthTokenFromCookie } from '@/functions';
 import axios from 'axios';
 const BASE_URL = 'http://localhost:3333/api';
 const token = getAuthTokenFromCookie();

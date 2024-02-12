@@ -6,8 +6,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import { usePathname } from 'next/navigation';
 
 import PrivateRoute from '@/components/privateRoute/privateRoute.component';
+import { checkIsPublicRoute } from '@/functions';
 import { NotiStackProvider } from '@/services/notistackProvider';
-import { checkIsPublicRoute } from '@/utils/checkIsPublicRoute';
 import theme from '../../theme/theme';
 import './globals.css';
 

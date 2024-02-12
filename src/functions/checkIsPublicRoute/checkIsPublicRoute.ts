@@ -1,4 +1,4 @@
-import { APP_ROUTES } from './../constants/appRoutes';
+import { APP_ROUTES } from '../../constants/appRoutes';
 
 export const checkIsPublicRoute = (
   asPath: keyof (typeof APP_ROUTES)['publics']

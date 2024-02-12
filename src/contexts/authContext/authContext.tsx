@@ -1,6 +1,6 @@
 'use client';
 import { api } from '@/services/api';
-import { SignInService } from '@/services/login/loginService';
+import { SignInService } from '@/services/requests/login/loginService';
 import { ErrorResponse } from '@/types/Error.types';
 import { User } from '@/types/User.types';
 import { Typography } from '@mui/material';
