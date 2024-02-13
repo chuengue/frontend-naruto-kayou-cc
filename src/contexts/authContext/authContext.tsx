@@ -1,25 +1,32 @@
 'use client';
+import useSnackbarHandler from '@/hooks/useSnackbarHandler';
 import { api } from '@/services/api';
-import { SignInService } from '@/services/requests/signIn/signInService';
+import {
+  SignInService,
+  whoamiService
+} from '@/services/requests/signIn/signInService';
 import { ErrorResponse } from '@/types/Error.types';
 import { User } from '@/types/User.types';
-import { Typography } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
-import { setCookie } from 'cookies-next';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { hasCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { AuthContextInterface, SignData } from './authContext.types';
 
 export const AuthContext = createContext({} as AuthContextInterface);
 
 export const AuthProvider = ({ children }) => {
-  const { enqueueSnackbar } = useSnackbar();
+  const { showErrorSnackbar } = useSnackbarHandler();
   const router = useRouter();
 
   const [userData, setUserData] = useState<User | null>(null);
 
   const isAuthenticated = !!userData;
+
+  const isAdmin = userData?.roles?.includes('admin') || false;
+  const isSuperAdmin = userData?.roles?.includes('super_admin') || false;
+
+  const hasAuthToken = hasCookie('authToken');
 
   const mutation = useMutation({
     mutationFn: ({ identifier, password }: SignData) => {
@@ -40,14 +47,23 @@ export const AuthProvider = ({ children }) => {
       router.replace('/register');
     },
     onError: (error: ErrorResponse) => {
-      enqueueSnackbar(
-        <Typography>{error.response.data.error.message}</Typography>,
-        {
-          variant: 'error'
-        }
-      );
+      showErrorSnackbar(error.response.data.error.message);
     }
   });
+
+  const { data: UserDataUpdated, refetch: refetchUser } = useQuery({
+    queryKey: ['userData'],
+    queryFn: () => whoamiService(api),
+    enabled: hasAuthToken
+  });
+
+  useEffect(() => {
+    const UpdatedAuthToken = hasCookie('authToken');
+
+    if (UpdatedAuthToken) {
+      setUserData(UserDataUpdated?.results as User);
+    }
+  }, [UserDataUpdated]);
 
   const isLoading = mutation.isPending;
 
@@ -57,7 +73,15 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ userData, signIn, isAuthenticated, isLoading }}
+      value={{
+        userData,
+        signIn,
+        isAuthenticated,
+        isLoading,
+        refetchUser,
+        isAdmin,
+        isSuperAdmin
+      }}
     >
       {children}
     </AuthContext.Provider>

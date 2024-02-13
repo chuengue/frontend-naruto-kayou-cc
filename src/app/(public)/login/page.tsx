@@ -68,6 +68,7 @@ export default function LoginPage() {
                 <TextField
                   type="text"
                   label="E-mail ou nome de usuário"
+                  autoComplete="nickname"
                   inputProps={{ ...register('identifier') }}
                   error={!!errors.identifier}
                   helperText={errors.identifier?.message}
@@ -76,6 +77,7 @@ export default function LoginPage() {
                 <TextField
                   type={showPassword ? 'text' : 'password'}
                   label="Senha"
+                  autoComplete="current-password"
                   inputProps={{ ...register('password') }}
                   error={!!errors.password}
                   helperText={errors.password?.message}

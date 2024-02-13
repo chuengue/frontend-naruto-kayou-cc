@@ -9,5 +9,13 @@ export const APP_ROUTES = {
     home: {
       name: '/home'
     }
+  },
+  privates: {
+    collections: {
+      name: '/collections'
+    },
+    wishlist: {
+      name: '/wishlist'
+    }
   }
 };

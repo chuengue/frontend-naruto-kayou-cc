@@ -3,10 +3,7 @@ import { AuthProvider } from '@/contexts/authContext/authContext';
 import { ReactQueryClientProvider } from '@/services/queryClient';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
-import { usePathname } from 'next/navigation';
 
-import PrivateRoute from '@/components/privateRoute/privateRoute.component';
-import { checkIsPublicRoute } from '@/functions';
 import { NotiStackProvider } from '@/services/notistackProvider';
 import theme from '../../theme/theme';
 import './globals.css';
@@ -21,10 +18,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const isPublicPage = checkIsPublicRoute(pathname.replace('/', ''));
-  console.log(pathname.replace('/', ''));
-  console.log(isPublicPage);
   return (
     <ReactQueryClientProvider>
       <html lang="en">
@@ -32,10 +25,7 @@ export default function RootLayout({
           <NotiStackProvider>
             <ThemeProvider theme={theme}>
               <AuthProvider>
-                <AppRouterCacheProvider>
-                  {isPublicPage && children}
-                  {!isPublicPage && <PrivateRoute>{children}</PrivateRoute>}
-                </AppRouterCacheProvider>
+                <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
               </AuthProvider>
             </ThemeProvider>
           </NotiStackProvider>

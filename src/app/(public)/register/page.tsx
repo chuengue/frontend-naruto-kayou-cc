@@ -1,5 +1,6 @@
 'use client';
 import Button from '@/components/button';
+import useSnackbarHandler from '@/hooks/useSnackbarHandler';
 import { api } from '@/services/api';
 import { SignUpService } from '@/services/requests/signUp/signUpService';
 import { ErrorResponse } from '@/types/Error.types';
@@ -9,7 +10,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, IconButton, Paper, Stack, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -31,8 +31,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
   const { replace } = useRouter();
-  const { enqueueSnackbar } = useSnackbar();
-
+  const { showErrorSnackbar, showSuccessSnackbar } = useSnackbarHandler();
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -40,16 +39,16 @@ export default function RegisterPage() {
     event.preventDefault();
   };
 
-  const { isPending, mutate } = useMutation({
+  const { isPending, mutateAsync: signUpFn } = useMutation({
     mutationFn: ({ data }: { data: SignUpInterface }) =>
       SignUpService(api, { ...data }),
     onSuccess: () => {
-      enqueueSnackbar('Conta Criada', { variant: 'success' });
+      showSuccessSnackbar('Conta Criada');
 
       replace('login');
     },
     onError: (error: ErrorResponse) => {
-      enqueueSnackbar(error.response.data.error.message, { variant: 'error' });
+      showErrorSnackbar(error.response.data.error.message);
     }
   });
 
@@ -74,7 +73,7 @@ export default function RegisterPage() {
         width="100vw"
         bgcolor="offWhite.main"
       >
-        <form onSubmit={handleSubmit(data => mutate({ data }))}>
+        <form onSubmit={handleSubmit(data => signUpFn({ data }))}>
           <Paper
             elevation={2}
             sx={{
@@ -96,6 +95,7 @@ export default function RegisterPage() {
                 <TextField
                   type="email"
                   label="E-mail"
+                  autoComplete="email"
                   inputProps={{ ...register('email') }}
                   error={!!errors.email}
                   helperText={errors.email?.message}
@@ -103,6 +103,7 @@ export default function RegisterPage() {
                 <TextField
                   type="text"
                   label="Nome de usuário"
+                  autoComplete="username"
                   inputProps={{ ...register('username') }}
                   error={!!errors.username}
                   helperText={errors.username?.message}
@@ -110,6 +111,7 @@ export default function RegisterPage() {
                 <TextField
                   type="text"
                   label="Nome"
+                  autoComplete="given-name"
                   inputProps={{ ...register('firstName') }}
                   error={!!errors.firstName}
                   helperText={errors.firstName?.message}
@@ -117,6 +119,7 @@ export default function RegisterPage() {
                 <TextField
                   type="text"
                   label="Sobrenome"
+                  autoComplete="family-name"
                   inputProps={{ ...register('lastName') }}
                   error={!!errors.lastName}
                   helperText={errors.lastName?.message}
@@ -124,6 +127,7 @@ export default function RegisterPage() {
                 <TextField
                   type="tel"
                   label="Telefone"
+                  autoComplete="tel"
                   inputProps={{ ...register('phoneNumber') }}
                   error={!!errors.phoneNumber}
                   helperText={errors.phoneNumber?.message}
@@ -131,6 +135,7 @@ export default function RegisterPage() {
                 <TextField
                   type={showPassword ? 'text' : 'password'}
                   label="Senha"
+                  autoComplete="new-password"
                   inputProps={{ ...register('password') }}
                   error={!!errors.password}
                   helperText={errors.password?.message}
@@ -150,10 +155,11 @@ export default function RegisterPage() {
                 <TextField
                   type={showPassword ? 'text' : 'password'}
                   label="Confirme a senha"
+                  autoComplete="new-password"
                   onChange={e => {
                     setConfirmPassword(e.target.value);
-                    matchPassword();
                   }}
+                  onBlur={() => matchPassword()}
                   error={!!errors.password}
                   helperText={errors.password?.message}
                 ></TextField>

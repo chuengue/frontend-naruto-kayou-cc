@@ -57,7 +57,4 @@ export const registerSchema = z.object({
     .refine(value => /[0-9]/.test(value), {
       message: 'A senha deve conter pelo menos um número'
     })
-    .refine(value => /[!@#$%^&*(),.?":{}|<>]/.test(value), {
-      message: 'A senha deve conter pelo menos um caractere especial'
-    })
 });
