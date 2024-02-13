@@ -19,9 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReactQueryClientProvider>
-      <html lang="en">
-        <body>
+    <html lang="en">
+      <body>
+        <ReactQueryClientProvider>
           <NotiStackProvider>
             <ThemeProvider theme={theme}>
               <AuthProvider>
@@ -29,8 +29,8 @@ export default function RootLayout({
               </AuthProvider>
             </ThemeProvider>
           </NotiStackProvider>
-        </body>
-      </html>
-    </ReactQueryClientProvider>
+        </ReactQueryClientProvider>
+      </body>
+    </html>
   );
 }

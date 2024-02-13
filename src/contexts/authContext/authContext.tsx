@@ -7,17 +7,17 @@ import {
 } from '@/services/requests/signIn/signInService';
 import { ErrorResponse } from '@/types/Error.types';
 import { User } from '@/types/User.types';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { hasCookie, setCookie } from 'cookies-next';
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { deleteCookie, hasCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { createContext, useEffect, useState } from 'react';
 import { AuthContextInterface, SignData } from './authContext.types';
-
 export const AuthContext = createContext({} as AuthContextInterface);
 
 export const AuthProvider = ({ children }) => {
   const { showErrorSnackbar } = useSnackbarHandler();
-  const router = useRouter();
+  const { replace } = useRouter();
+  const queryClient = new QueryClient();
 
   const [userData, setUserData] = useState<User | null>(null);
 
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers['Authorization'] =
         `Bearer ${data?.results.accessToken}`;
 
-      router.replace('/register');
+      replace('/register');
     },
     onError: (error: ErrorResponse) => {
       showErrorSnackbar(error.response.data.error.message);
@@ -54,7 +54,8 @@ export const AuthProvider = ({ children }) => {
   const { data: UserDataUpdated, refetch: refetchUser } = useQuery({
     queryKey: ['userData'],
     queryFn: () => whoamiService(api),
-    enabled: hasAuthToken
+    enabled: hasAuthToken,
+    staleTime: 60 * 60 * 5 //3 Minutes
   });
 
   useEffect(() => {
@@ -69,6 +70,11 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = async ({ identifier, password }: SignData): Promise<void> => {
     mutation.mutate({ identifier, password });
+  };
+
+  const signOut = () => {
+    deleteCookie('authToken');
+    queryClient.invalidateQueries();
   };
 
   return (
