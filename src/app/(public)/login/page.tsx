@@ -53,9 +53,15 @@ export default function LoginPage() {
 
   return (
     <>
-      <ModalComponent open={open} handleClose={handleClose}>
+      <ModalComponent
+        open={open}
+        handleClose={handleClose}
+        title="Função em desenvolvimento"
+      >
         <Box width={400}>
-          <Typography>teste</Typography>
+          <Typography>
+            Caso precise de ajuda entre em contato por WhatsApp: +5521980985200
+          </Typography>
         </Box>
       </ModalComponent>
       <Box
