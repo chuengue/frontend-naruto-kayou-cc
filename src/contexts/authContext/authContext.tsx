@@ -39,7 +39,6 @@ export const AuthProvider = ({ children }) => {
       });
       SetIsAuthenticated(true);
       setUserData(results?.user as User);
-
       api.defaults.headers['Authorization'] =
         `Bearer ${data?.results.accessToken}`;
 
@@ -55,9 +54,7 @@ export const AuthProvider = ({ children }) => {
     refetch: refetchUser,
     isError,
     error,
-    isSuccess,
-
-    isPending
+    isSuccess
   } = useQuery({
     queryKey: ['userData'],
     queryFn: () => whoamiService(api),
@@ -69,26 +66,29 @@ export const AuthProvider = ({ children }) => {
     deleteCookie('authToken');
     SetIsAuthenticated(false);
     queryClient.invalidateQueries();
-    console.log(isAuthenticated);
   }, [queryClient, SetIsAuthenticated, isAuthenticated]);
 
-  useEffect(() => {
+  const handleUserDataUpdate = useCallback(() => {
     const UpdatedAuthToken = hasCookie('authToken');
 
     if (UpdatedAuthToken) {
-      setUserData(UserDataUpdated?.results as User);
+      const userDataResponse: User = UserDataUpdated?.results as User;
+      setUserData(userDataResponse);
       if (isSuccess) {
         SetIsAuthenticated(true);
       } else if (isError) {
         const errorCode = error.response.data.error.code;
         if (errorCode === 1010) {
-          showErrorSnackbar('Sessão Expirada. Faço Login Novamente!');
+          showErrorSnackbar('Sessão Expirada. Faça Login Novamente!');
         }
         signOut();
       }
     }
   }, [UserDataUpdated, showErrorSnackbar, isError, isSuccess, signOut, error]);
 
+  useEffect(() => {
+    handleUserDataUpdate();
+  }, [handleUserDataUpdate]);
   const isLoading = mutation.isPending;
 
   const signIn = async ({ identifier, password }: SignData): Promise<void> => {
