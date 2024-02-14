@@ -1,5 +1,6 @@
 'use client';
 import Button from '@/components/button';
+import ModalComponent from '@/components/modal/modal.component';
 import { SignData } from '@/contexts/authContext/authContext.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -11,6 +12,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import Link from 'next/link';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../contexts/authContext/authContext';
@@ -27,6 +29,7 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema)
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { signIn, isLoading } = useContext(AuthContext);
   const handleClickShowPassword = () => setShowPassword(show => !show);
@@ -36,12 +39,25 @@ export default function LoginPage() {
     event.preventDefault();
   };
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const handleSignIn = ({ identifier, password }: SignData) => {
     signIn({ identifier, password });
   };
 
+  //TODO SERA FUNÇÃO DE FEEDBACK, FORGOT PASSWORD NAO IMPLEMENTADO NA API
+  const forgotPassword = () => {
+    handleOpen();
+  };
+
   return (
     <>
+      <ModalComponent open={open} handleClose={handleClose}>
+        <Box width={400}>
+          <Typography>teste</Typography>
+        </Box>
+      </ModalComponent>
       <Box
         justifyContent="center"
         display="flex"
@@ -96,7 +112,12 @@ export default function LoginPage() {
                 ></TextField>
               </Stack>
               <Stack direction="row-reverse" mt={2}>
-                <Button variant="text" titleSize={13} color="secondary">
+                <Button
+                  onClick={forgotPassword}
+                  variant="text"
+                  titleSize={13}
+                  color="secondary"
+                >
                   Esqueceu a senha ?
                 </Button>
               </Stack>
@@ -113,9 +134,11 @@ export default function LoginPage() {
                 justifyContent="center"
               >
                 <Typography variant="caption">Ainda não tem conta?</Typography>
-                <Button titleSize={13} variant="text" color="secondary">
-                  Registre-se
-                </Button>
+                <Link href={'/register'}>
+                  <Button titleSize={13} variant="text" color="secondary">
+                    Registre-se
+                  </Button>
+                </Link>
               </Stack>
             </Stack>
           </Paper>

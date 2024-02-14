@@ -12,6 +12,7 @@ export interface AuthContextInterface {
   isAdmin: boolean;
   isSuperAdmin: boolean;
   signIn: (data: SignData) => Promise<void>;
+  signOut: () => void;
   refetchUser: (
     options?: RefetchOptions | undefined
   ) => Promise<QueryObserverResult<WhoamiResponse, Error>>;

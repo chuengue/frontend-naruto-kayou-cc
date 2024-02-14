@@ -10,7 +10,7 @@ import { User } from '@/types/User.types';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { deleteCookie, hasCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { AuthContextInterface, SignData } from './authContext.types';
 export const AuthContext = createContext({} as AuthContextInterface);
 
@@ -20,8 +20,7 @@ export const AuthProvider = ({ children }) => {
   const queryClient = new QueryClient();
 
   const [userData, setUserData] = useState<User | null>(null);
-
-  const isAuthenticated = !!userData;
+  const [isAuthenticated, SetIsAuthenticated] = useState<boolean>(false);
 
   const isAdmin = userData?.roles?.includes('admin') || false;
   const isSuperAdmin = userData?.roles?.includes('super_admin') || false;
@@ -38,33 +37,57 @@ export const AuthProvider = ({ children }) => {
       setCookie('authToken', results?.accessToken, {
         maxAge: 60 * 60 * 24 // 24 Hours
       });
-
+      SetIsAuthenticated(true);
       setUserData(results?.user as User);
 
       api.defaults.headers['Authorization'] =
         `Bearer ${data?.results.accessToken}`;
 
-      replace('/register');
+      replace('/home');
     },
     onError: (error: ErrorResponse) => {
       showErrorSnackbar(error.response.data.error.message);
     }
   });
 
-  const { data: UserDataUpdated, refetch: refetchUser } = useQuery({
+  const {
+    data: UserDataUpdated,
+    refetch: refetchUser,
+    isError,
+    error,
+    isSuccess,
+
+    isPending
+  } = useQuery({
     queryKey: ['userData'],
     queryFn: () => whoamiService(api),
     enabled: hasAuthToken,
+    retry: false,
     staleTime: 60 * 60 * 5 //3 Minutes
   });
+  const signOut = useCallback(() => {
+    deleteCookie('authToken');
+    SetIsAuthenticated(false);
+    queryClient.invalidateQueries();
+    console.log(isAuthenticated);
+  }, [queryClient, SetIsAuthenticated, isAuthenticated]);
 
   useEffect(() => {
     const UpdatedAuthToken = hasCookie('authToken');
 
     if (UpdatedAuthToken) {
       setUserData(UserDataUpdated?.results as User);
+      if (isSuccess) {
+        SetIsAuthenticated(true);
+      } else if (isError) {
+        const errorCode = error.response.data.error.code;
+        if (errorCode === 1010) {
+          showErrorSnackbar('Sessão Expirada. Faço Login Novamente!');
+        }
+        signOut();
+      }
     }
-  }, [UserDataUpdated]);
+  }, [UserDataUpdated, showErrorSnackbar, isError, isSuccess, signOut, error]);
 
   const isLoading = mutation.isPending;
 
@@ -72,21 +95,17 @@ export const AuthProvider = ({ children }) => {
     mutation.mutate({ identifier, password });
   };
 
-  const signOut = () => {
-    deleteCookie('authToken');
-    queryClient.invalidateQueries();
-  };
-
   return (
     <AuthContext.Provider
       value={{
         userData,
-        signIn,
         isAuthenticated,
         isLoading,
-        refetchUser,
         isAdmin,
-        isSuperAdmin
+        isSuperAdmin,
+        signIn,
+        refetchUser,
+        signOut
       }}
     >
       {children}

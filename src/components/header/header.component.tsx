@@ -1,4 +1,5 @@
 'use client';
+import { AuthContext } from '@/contexts/authContext/authContext';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
@@ -14,7 +15,7 @@ import {
   Typography
 } from '@mui/material';
 
-import React from 'react';
+import React, { useContext } from 'react';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Header = () => {
@@ -24,7 +25,7 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-
+  const { signOut, isAuthenticated } = useContext(AuthContext);
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -40,6 +41,7 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
+  console.log({ isAuthenticated });
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -120,14 +122,21 @@ const Header = () => {
             {pages.map(page => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => signOut()}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-
+          {isAuthenticated && (
+            <Button
+              onClick={() => signOut()}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              some
+            </Button>
+          )}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

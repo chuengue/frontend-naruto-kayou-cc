@@ -7,8 +7,17 @@ import { ErrorResponse } from '@/types/Error.types';
 import { SignUpInterface } from '@/types/SignUp.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, IconButton, Paper, Stack, TextField } from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import {
+  Box,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,7 +48,7 @@ export default function RegisterPage() {
     event.preventDefault();
   };
 
-  const { isPending, mutateAsync: signUpFn } = useMutation({
+  const { isPending, mutate: signUpFn } = useMutation({
     mutationFn: ({ data }: { data: SignUpInterface }) =>
       SignUpService(api, { ...data }),
     onSuccess: () => {
@@ -77,19 +86,35 @@ export default function RegisterPage() {
           <Paper
             elevation={2}
             sx={{
-              padding: 4,
+              padding: 2,
               borderRadius: 2.5,
               width: 'auto',
               height: 'auto'
             }}
           >
             <Box>
-              <Stack alignItems="center" sx={{ py: 8 }}>
+              <Stack direction="row">
+                <Link
+                  href="/login"
+                  style={{
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <KeyboardArrowLeftIcon alignmentBaseline="central" />
+                  <Typography variant="subtitle1" color={'GrayText'}>
+                    Voltar
+                  </Typography>
+                </Link>
+              </Stack>
+              <Stack alignItems="center" sx={{ pb: 8, pt: 6 }}>
                 <img src="/assets/logo.png" width={100} height={40} />
               </Stack>
               <Stack
                 id="inputs"
                 spacing={3}
+                paddingX={2}
                 sx={{ width: { xs: '350px', lg: '400px' } }}
               >
                 <TextField
