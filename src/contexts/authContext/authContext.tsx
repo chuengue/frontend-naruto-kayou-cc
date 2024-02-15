@@ -10,7 +10,13 @@ import { User } from '@/types/User.types';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { deleteCookie, hasCookie, setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import { createContext, useCallback, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import { AuthContextInterface, SignData } from './authContext.types';
 export const AuthContext = createContext({} as AuthContextInterface);
 
@@ -66,6 +72,7 @@ export const AuthProvider = ({ children }) => {
     deleteCookie('authToken');
     SetIsAuthenticated(false);
     queryClient.invalidateQueries();
+    replace('/home');
   }, [queryClient, SetIsAuthenticated, isAuthenticated]);
 
   const handleUserDataUpdate = useCallback(() => {
@@ -112,3 +119,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export const UseAuth = () => useContext(AuthContext);

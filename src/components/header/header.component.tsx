@@ -1,6 +1,7 @@
 'use client';
+import { UseAuth } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
-import { Search } from '@mui/icons-material';
+import { Logout, MenuOpen, Person, Search } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
@@ -17,10 +18,11 @@ import {
   alpha,
   styled
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { ReactNode, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import Button from '../button';
 import Input from '../input';
-
 const Header = () => {
   const { toggleClosed } = useSidebarStore(
     useShallow(state => ({
@@ -28,7 +30,26 @@ const Header = () => {
       toggleClosed: state.actions.toggleClosed
     }))
   );
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  const { signOut, isAuthenticated, userData } = UseAuth();
+  const { push } = useRouter();
+  interface HeaderMenuOptionProps {
+    title: string;
+    onClick?: () => void;
+    icon?: ReactNode;
+  }
+  const headerMenuOptions: HeaderMenuOptionProps[] = [
+    {
+      title: 'Meu perfil',
+      onClick: () => {},
+      icon: <Person />
+    },
+    {
+      title: 'Sair',
+      onClick: signOut,
+      icon: <Logout />
+    }
+  ];
+
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,6 +59,18 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  function getInitials(name: string) {
+    const words = name.split(' ');
+
+    let initials = '';
+
+    for (let i = 0; i < words.length && i < 2; i++) {
+      initials += words[i][0].toUpperCase();
+    }
+
+    return initials;
+  }
+
   const StyledMenu = styled((props: MenuProps) => (
     <Menu
       elevation={0}
@@ -97,12 +130,15 @@ const Header = () => {
             display="grid"
             direction="row"
             gridTemplateAreas={"'a b c' 'a b c'"}
-            gridTemplateColumns="1fr 2fr 1fr"
+            gridTemplateColumns="2fr 1fr 1fr"
             gridTemplateRows="auto"
+            rowGap={{ xs: '12px', sm: '12px', md: 0 }}
+            columnGap={1}
             spacing={2}
             justifyContent="space-between"
             alignItems="center"
             width="100%"
+            my={2}
           >
             <Stack
               direction="row"
@@ -117,15 +153,16 @@ const Header = () => {
                 aria-haspopup="true"
                 color="secondary"
                 onClick={() => toggleClosed()}
+                sx={{ rotate: '180deg' }}
               >
-                <MenuIcon />
+                <MenuOpen />
               </IconButton>
             </Stack>
             <Stack
               gridColumn={{
                 xs: 'a-start / c-end',
-                md: 'a-end',
-                lg: 'a-end'
+                md: 'a-start',
+                lg: 'a-start'
               }}
               style={{ marginLeft: '0px' }}
               gridRow={{ xs: 2, sm: 2, md: 1, lg: 1 }}
@@ -138,54 +175,108 @@ const Header = () => {
             </Stack>
             <Stack
               gridRow={1}
-              gridColumn="c-end"
+              gridColumn={{
+                sm: 'a-start/c-end',
+                xs: 'a-start/c-end',
+                md: 'b-start/c-end',
+                lg: 'c-start'
+              }}
               direction="row"
               alignItems="center"
               bgcolor="offWhite.main"
               px={2}
-              py={0.8}
+              py={1}
               borderRadius="25px"
+              justifySelf="end"
             >
-              <IconButton onClick={handleOpenUserMenu} size="small">
-                <MenuIcon color="secondary" style={{ fontSize: '28px' }} />
-              </IconButton>
-              <Divider
-                orientation="vertical"
-                variant="middle"
-                sx={{ marginRight: '8px', marginLeft: '4px' }}
-                flexItem
-              />
+              <>
+                {isAuthenticated ? (
+                  <>
+                    <IconButton onClick={handleOpenUserMenu} size="small">
+                      <MenuIcon
+                        color="secondary"
+                        style={{ fontSize: '28px' }}
+                      />
+                    </IconButton>
+                    <Divider
+                      orientation="vertical"
+                      variant="middle"
+                      sx={{ marginRight: '8px', marginLeft: '4px' }}
+                      flexItem
+                    />
 
-              <Avatar
-                sx={{
-                  backgroundColor: 'primary.light'
-                }}
-              >
-                US
-              </Avatar>
+                    <Avatar
+                      sx={{
+                        backgroundColor: 'primary.light'
+                      }}
+                    >
+                      {getInitials(
+                        userData?.firstName + ' ' + userData?.lastName
+                      )}
+                    </Avatar>
 
-              <StyledMenu
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting, index) => (
-                  <div key={setting}>
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography
-                        textAlign="center"
-                        variant="button"
-                        fontWeight="bold"
-                        color="primary.light"
-                      >
-                        {setting}
-                      </Typography>
-                    </MenuItem>
-                    {index < settings.length - 1 && (
-                      <Divider orientation="horizontal" variant="fullWidth" />
-                    )}
-                  </div>
-                ))}
-              </StyledMenu>
+                    <StyledMenu
+                      open={Boolean(anchorElUser)}
+                      onClose={handleCloseUserMenu}
+                    >
+                      {headerMenuOptions.map((item, index) => (
+                        <div key={item.title}>
+                          <MenuItem key={item.title} onClick={item.onClick}>
+                            {item.icon}
+                            <Typography
+                              textAlign="center"
+                              variant="button"
+                              fontWeight="bold"
+                              color="primary.light"
+                            >
+                              {item.title}
+                            </Typography>
+                          </MenuItem>
+                          {index < headerMenuOptions.length - 1 && (
+                            <Divider
+                              orientation="horizontal"
+                              variant="fullWidth"
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </StyledMenu>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="text"
+                      color="secondary"
+                      size="small"
+                      titleSize="1.1em"
+                      rounded
+                      onClick={() => {
+                        push('/register');
+                      }}
+                    >
+                      Cadastre-se
+                    </Button>
+                    <Divider
+                      orientation="vertical"
+                      variant="middle"
+                      sx={{ mx: '8px' }}
+                      flexItem
+                    />
+                    <Button
+                      variant="text"
+                      color="secondary"
+                      size="small"
+                      titleSize="1.1em"
+                      rounded
+                      onClick={() => {
+                        push('/login');
+                      }}
+                    >
+                      Faça login
+                    </Button>
+                  </>
+                )}
+              </>
             </Stack>
           </Stack>
         </Toolbar>

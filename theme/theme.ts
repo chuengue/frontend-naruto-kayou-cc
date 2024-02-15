@@ -24,8 +24,13 @@ let theme = createTheme({
 });
 
 theme = createTheme(theme, {
-  // Custom colors created with augmentColor go here
-
+  typography: {
+    fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
+    fontSize: 30,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500
+  },
   palette: {
     primary: theme.palette.augmentColor({
       color: {

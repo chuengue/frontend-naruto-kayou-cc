@@ -2,20 +2,28 @@
 import { SidebarOption, sidebarOptions } from '@/constants/sidebarOptions';
 import { AuthContext } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
-import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
+import {
+  Menu,
+  MenuItem,
+  MenuItemStyles,
+  Sidebar,
+  SubMenu,
+  menuClasses
+} from 'react-pro-sidebar';
 import { useShallow } from 'zustand/react/shallow';
+import theme from '../../../theme/theme';
+import SidebarHeader from './components/sidebarHeader.component';
 function SidebarNav() {
   const { push } = useRouter();
   const pathname = usePathname();
 
-  const { isCollapsed, toggled, toggleCollapsed, setClosed } = useSidebarStore(
+  const { isCollapsed, toggled, setClosed } = useSidebarStore(
     useShallow(state => ({
       isCollapsed: state.state.isCollapsed,
       toggled: state.state.isClosed,
-      toggleCollapsed: state.actions.toggleCollapsed,
       setClosed: state.actions.setClosed
     }))
   );
@@ -29,6 +37,38 @@ function SidebarNav() {
     }
     return option;
   }
+  const menuItemStyles: MenuItemStyles = {
+    root: {
+      fontSize: '13px',
+      fontWeight: 400
+    },
+    icon: {
+      color: theme.palette.secondary,
+      [`&.${menuClasses.disabled}`]: {
+        color: theme.palette.grey[400]
+      }
+    },
+    SubMenuExpandIcon: {
+      color: '#b6b7b9'
+    },
+    subMenuContent: {
+      backgroundColor: theme.palette.primary.main
+    },
+    button: {
+      marginLeft: '10px',
+      marginRight: '10px',
+      [`&.${menuClasses.disabled}`]: {
+        color: theme.palette.grey[400]
+      },
+      '&:hover': {
+        backgroundColor: theme.palette.primary.light,
+        borderRadius: '16px'
+      }
+    },
+    label: ({ open }) => ({
+      fontWeight: open ? 600 : undefined
+    })
+  };
   return (
     <Box display="flex" height="100vh">
       <Sidebar
@@ -37,31 +77,32 @@ function SidebarNav() {
         onBackdropClick={() => setClosed(false)}
         collapsed={isCollapsed}
         breakPoint="md"
+        backgroundColor={theme.palette.primary.main}
+        rootStyles={{
+          color: theme.palette.secondary.main
+        }}
       >
-        <Menu
-          menuItemStyles={{
-            button: ({ level, active, disabled }) => {
-              if (level === 1)
-                return {
-                  color: disabled ? '#f5d9ff' : '#d359ff',
-                  backgroundColor: active ? '#eecef9' : undefined
-                };
-            }
-          }}
-        >
+        <SidebarHeader></SidebarHeader>
+
+        <Menu menuItemStyles={menuItemStyles}>
           {sidebarOptions.map(option => {
             return option.children ? (
               <SubMenu
-                label={option.title}
+                label={
+                  <Typography fontWeight="medium">{option.title}</Typography>
+                }
                 key={option.title}
                 icon={option.icon}
               >
                 {option.children.map(subOption => (
                   <MenuItem
+                    icon={subOption.icon}
                     key={subOption.title}
                     onClick={() => push(subOption.path)}
                   >
-                    {subOption.title}
+                    <Typography fontWeight="medium" variant="body2">
+                      {subOption.title}
+                    </Typography>
                   </MenuItem>
                 ))}
               </SubMenu>
@@ -76,7 +117,7 @@ function SidebarNav() {
                     }}
                     icon={option.icon}
                   >
-                    {option.title}
+                    <Typography fontWeight="medium">{option.title}</Typography>
                   </MenuItem>
                 )}
               </React.Fragment>

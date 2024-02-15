@@ -4,17 +4,18 @@ import { ButtonComponentProps } from './button.types';
 const ButtonComponent: React.FC<ButtonComponentProps> = ({
   children,
   isLoading = false,
-  color,
+  color = 'primary',
   titleSize,
+  rounded = false,
   ...buttonProps
 }) => {
   return (
     <Button
       {...buttonProps}
       disabled={buttonProps.disabled || isLoading}
-      color={color ?? 'primary'}
+      color={color}
       variant={buttonProps.variant ?? 'contained'}
-      sx={{ borderRadius: 2 }}
+      sx={{ borderRadius: rounded ? '25px' : 2 }}
     >
       <Stack direction={'row'} alignItems="center">
         {isLoading && (
@@ -24,8 +25,12 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
             color={!buttonProps.disabled ? 'inherit' : 'primary'}
           ></CircularProgress>
         )}
-        <div style={{ paddingTop: '4px', paddingBottom: '4px' }}>
-          <Typography fontSize={titleSize ?? titleSize} fontWeight={600}>
+        <div style={{ padding: '4px' }}>
+          <Typography
+            fontSize={titleSize ?? titleSize}
+            fontWeight={600}
+            color={color === 'primary' ? '#fff' : 'primary'}
+          >
             {children}
           </Typography>
         </div>

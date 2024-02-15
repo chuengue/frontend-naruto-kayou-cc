@@ -5,5 +5,6 @@ export interface ButtonComponentProps extends Omit<ButtonProps, 'color'> {
   children: ReactNode;
   color?: ButtonOwnProps['color'];
   isLoading?: boolean;
-  titleSize?: number;
+  titleSize?: number | string;
+  rounded?: boolean;
 }
