@@ -2,7 +2,7 @@
 import { SidebarOption, sidebarOptions } from '@/constants/sidebarOptions';
 import { AuthContext } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
-import { Box, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
 import {
@@ -43,7 +43,7 @@ function SidebarNav() {
       fontWeight: 400
     },
     icon: {
-      color: theme.palette.secondary,
+      color: theme.palette.secondary.main,
       [`&.${menuClasses.disabled}`]: {
         color: theme.palette.grey[400]
       }
@@ -63,6 +63,11 @@ function SidebarNav() {
       '&:hover': {
         backgroundColor: theme.palette.primary.light,
         borderRadius: '16px'
+        // color: theme.palette.primary.main,
+        // fontWeight: 'medium',
+        // '& .ps-menu-icon': {
+        //   color: theme.palette.primary.main
+        // }
       }
     },
     label: ({ open }) => ({
@@ -83,14 +88,16 @@ function SidebarNav() {
         }}
       >
         <SidebarHeader></SidebarHeader>
-
+        <Divider
+          flexItem
+          variant="middle"
+          sx={{ backgroundColor: 'primary.light', mb: '16px' }}
+        />
         <Menu menuItemStyles={menuItemStyles}>
           {sidebarOptions.map(option => {
             return option.children ? (
               <SubMenu
-                label={
-                  <Typography fontWeight="medium">{option.title}</Typography>
-                }
+                label={<Typography fontWeight="500">{option.title}</Typography>}
                 key={option.title}
                 icon={option.icon}
               >
@@ -100,7 +107,7 @@ function SidebarNav() {
                     key={subOption.title}
                     onClick={() => push(subOption.path)}
                   >
-                    <Typography fontWeight="medium" variant="body2">
+                    <Typography fontWeight="400" variant="body2">
                       {subOption.title}
                     </Typography>
                   </MenuItem>
@@ -117,7 +124,7 @@ function SidebarNav() {
                     }}
                     icon={option.icon}
                   >
-                    <Typography fontWeight="medium">{option.title}</Typography>
+                    <Typography fontWeight="500">{option.title}</Typography>
                   </MenuItem>
                 )}
               </React.Fragment>

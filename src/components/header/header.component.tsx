@@ -19,10 +19,11 @@ import {
   styled
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import Button from '../button';
 import Input from '../input';
+import { HeaderMenuOptionProps } from './header.types';
 const Header = () => {
   const { toggleClosed } = useSidebarStore(
     useShallow(state => ({
@@ -32,11 +33,7 @@ const Header = () => {
   );
   const { signOut, isAuthenticated, userData } = UseAuth();
   const { push } = useRouter();
-  interface HeaderMenuOptionProps {
-    title: string;
-    onClick?: () => void;
-    icon?: ReactNode;
-  }
+
   const headerMenuOptions: HeaderMenuOptionProps[] = [
     {
       title: 'Meu perfil',
