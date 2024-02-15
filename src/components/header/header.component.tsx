@@ -1,174 +1,196 @@
 'use client';
-import { AuthContext } from '@/contexts/authContext/authContext';
+import { useSidebarStore } from '@/stores/auth/sidebarStore';
+import { Search } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   AppBar,
   Avatar,
   Box,
-  Button,
-  Container,
+  Divider,
   IconButton,
   Menu,
   MenuItem,
+  MenuProps,
+  Stack,
   Toolbar,
-  Tooltip,
-  Typography
+  Typography,
+  alpha,
+  styled
 } from '@mui/material';
+import React, { useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import Input from '../input';
 
-import React, { useContext } from 'react';
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Header = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
+  const { toggleClosed } = useSidebarStore(
+    useShallow(state => ({
+      toggled: state.state.isClosed,
+      toggleClosed: state.actions.toggleClosed
+    }))
   );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-  const { signOut, isAuthenticated } = useContext(AuthContext);
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  console.log({ isAuthenticated });
+  const StyledMenu = styled((props: MenuProps) => (
+    <Menu
+      elevation={0}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      anchorEl={anchorElUser}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    '& .MuiPaper-root': {
+      borderRadius: '16px',
+      backgroundColor: theme.palette.offWhite.light,
+      marginTop: '45px',
+      minWidth: 180,
+      color: theme.palette.primary.main,
+      boxShadow:
+        'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+      '& .MuiMenu-list': {
+        padding: '6px',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        '& .MuiMenuItem-root': {
+          borderRadius: '8px'
+        }
+      },
+      '& .MuiMenuItem-root': {
+        '& .MuiSvgIcon-root': {
+          fontSize: 18,
+          color: theme.palette.text.secondary,
+          marginRight: theme.spacing(1.5)
+        },
+        '&:active': {
+          backgroundColor: alpha(
+            theme.palette.primary.main,
+            theme.palette.action.selectedOpacity
+          )
+        }
+      }
+    }
+  }));
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <Box mx={3}>
+      <AppBar
+        position="static"
+        sx={{ flex: '0 0 auto', bgcolor: 'transparent', boxShadow: 'none' }}
+      >
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
+          <Stack
+            display="grid"
+            direction="row"
+            gridTemplateAreas={"'a b c' 'a b c'"}
+            gridTemplateColumns="1fr 2fr 1fr"
+            gridTemplateRows="auto"
+            spacing={2}
+            justifyContent="space-between"
+            alignItems="center"
+            width="100%"
           >
-            LOGO
-          </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
+            <Stack
+              direction="row"
+              spacing={2}
+              gridRow={1}
+              alignItems="center"
+              gridColumn="a-start"
+              sx={{ display: { sm: 'flex', md: 'none', lg: 'none' } }}
             >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              {pages.map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(page => (
-              <Button
-                key={page}
-                onClick={() => signOut()}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+              <IconButton
+                size="large"
+                aria-haspopup="true"
+                color="secondary"
+                onClick={() => toggleClosed()}
               >
-                {page}
-              </Button>
-            ))}
-          </Box>
-          {isAuthenticated && (
-            <Button
-              onClick={() => signOut()}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-            >
-              some
-            </Button>
-          )}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <MenuIcon />
               </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
+            </Stack>
+            <Stack
+              gridColumn={{
+                xs: 'a-start / c-end',
+                md: 'a-end',
+                lg: 'a-end'
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              style={{ marginLeft: '0px' }}
+              gridRow={{ xs: 2, sm: 2, md: 1, lg: 1 }}
             >
-              {settings.map(setting => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+              <Input
+                placeholder="Buscar"
+                variant="filled"
+                endContent={<Search />}
+              />
+            </Stack>
+            <Stack
+              gridRow={1}
+              gridColumn="c-end"
+              direction="row"
+              alignItems="center"
+              bgcolor="offWhite.main"
+              px={2}
+              py={0.8}
+              borderRadius="25px"
+            >
+              <IconButton onClick={handleOpenUserMenu} size="small">
+                <MenuIcon color="secondary" style={{ fontSize: '28px' }} />
+              </IconButton>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                sx={{ marginRight: '8px', marginLeft: '4px' }}
+                flexItem
+              />
+
+              <Avatar
+                sx={{
+                  backgroundColor: 'primary.light'
+                }}
+              >
+                US
+              </Avatar>
+
+              <StyledMenu
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting, index) => (
+                  <div key={setting}>
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography
+                        textAlign="center"
+                        variant="button"
+                        fontWeight="bold"
+                        color="primary.light"
+                      >
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                    {index < settings.length - 1 && (
+                      <Divider orientation="horizontal" variant="fullWidth" />
+                    )}
+                  </div>
+                ))}
+              </StyledMenu>
+            </Stack>
+          </Stack>
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
+    </Box>
   );
 };
 
