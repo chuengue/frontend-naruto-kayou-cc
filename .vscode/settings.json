@@ -16,7 +16,11 @@
   "typescript.tsdk": "node_modules/typescript/lix",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.words": [
+    "fontsource",
     "hookform",
+    "nextjs",
+    "Noti",
+    "notistack",
     "Roboto"
   ],
   "git.ignoreLimitWarning": true,

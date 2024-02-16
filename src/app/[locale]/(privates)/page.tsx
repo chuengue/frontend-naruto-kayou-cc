@@ -1,3 +1,3 @@
 export default async function RootPage() {
-  return null;
+  return <div>root</div>;
 }

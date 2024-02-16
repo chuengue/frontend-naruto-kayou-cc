@@ -7,4 +7,5 @@ export interface ButtonComponentProps extends Omit<ButtonProps, 'color'> {
   isLoading?: boolean;
   titleSize?: number | string;
   rounded?: boolean;
+  styled?: 'OutlinedStyle' | 'containedStyle' | 'textButtonStyle';
 }

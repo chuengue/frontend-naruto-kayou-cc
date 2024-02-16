@@ -1,19 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { APP_ROUTES } from './constants/appRoutes';
+import { withMiddleware2 } from './middlewares/Intl';
+import { withMiddleware1 } from './middlewares/auth';
+import { chain } from './middlewares/stackHandler';
 
-const appPrivateRoutes = Object.values(APP_ROUTES.privates).map(
-  route => route.name
-);
+export default chain([withMiddleware1, withMiddleware2]);
 
-export default function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const token = request.cookies.get('authToken')?.value;
-
-  if (token) {
-    if (pathname.startsWith('/login')) {
-      return NextResponse.redirect(new URL('/home', request.url));
-    }
-  } else if (appPrivateRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL('/home', request.url));
-  }
-}
+export const config = {
+  matcher: ['/', '/(pt|en)/:path*', '/((?!_next/image|_vercel|.*\\..*).*)']
+};
+// '/((?!api|_next/static|_next/image|favicon.ico).*)',

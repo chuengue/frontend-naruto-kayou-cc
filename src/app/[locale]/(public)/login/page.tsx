@@ -1,6 +1,7 @@
 'use client';
 import Button from '@/components/button';
 import ModalComponent from '@/components/modal/modal.component';
+import { UseAuth } from '@/contexts/authContext/authContext';
 import { SignData } from '@/contexts/authContext/authContext.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -13,9 +14,8 @@ import {
   Typography
 } from '@mui/material';
 import Link from 'next/link';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthContext } from '../../../contexts/authContext/authContext';
 import { LoginFormData } from './login.types';
 import { loginSchema } from './zodSchemas';
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { signIn, isLoading } = useContext(AuthContext);
+  const { signIn, isLoading } = UseAuth();
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -120,9 +120,8 @@ export default function LoginPage() {
               <Stack direction="row-reverse" mt={2}>
                 <Button
                   onClick={forgotPassword}
-                  variant="text"
                   titleSize={13}
-                  color="secondary"
+                  styled="textButtonStyle"
                 >
                   Esqueceu a senha ?
                 </Button>
@@ -130,7 +129,11 @@ export default function LoginPage() {
             </Box>
 
             <Stack direction="column" spacing={20} mt={6}>
-              <Button type="submit" isLoading={isLoading}>
+              <Button
+                type="submit"
+                isLoading={isLoading}
+                styled="containedStyle"
+              >
                 Entrar
               </Button>
               <Stack
@@ -141,7 +144,7 @@ export default function LoginPage() {
               >
                 <Typography variant="caption">Ainda não tem conta?</Typography>
                 <Link href={'/register'}>
-                  <Button titleSize={13} variant="text" color="secondary">
+                  <Button titleSize={13} styled="textButtonStyle">
                     Registre-se
                   </Button>
                 </Link>
