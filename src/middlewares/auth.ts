@@ -16,7 +16,8 @@ export function withMiddleware1(middleware: CustomMiddleware) {
     const response = NextResponse.next();
 
     if (token) {
-      if (pathname.startsWith('/login')) {
+      const pathWithoutLocale = pathname.slice(3);
+      if (pathWithoutLocale.match('/login')) {
         return NextResponse.redirect(new URL('/home', request.url));
       }
     } else if (appPrivateRoutes.includes(pathname)) {
