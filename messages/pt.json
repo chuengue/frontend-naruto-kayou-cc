@@ -46,6 +46,7 @@
     "backBtn":"Voltar para Login",
     "inputLabelEmail" :"E-email",
     "usernameLabel": "Nome de usuário",
+    "backBtnAlt": "Voltar para home",
     "firstNameLabel": "Nome",
     "lastNameLabel": "Sobrenome",
     "phoneNumberLabel": "Telefone",

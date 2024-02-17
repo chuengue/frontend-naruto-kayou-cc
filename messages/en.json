@@ -22,7 +22,8 @@
     "temporaryModalForgotPassword": " If you need help, contact us by WhatsApp: +5521980985200"
   },
   "register": {
-    "backBtn": "Back to Login",
+    "backBtn": "Back to login",
+    "backBtnAlt": "Back to home",
     "confirmPasswordLabel": "Confirm password",
     "firstNameLabel": "Name",
     "inputLabelEmail": "E-Mail",

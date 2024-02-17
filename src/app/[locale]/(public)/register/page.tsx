@@ -1,5 +1,6 @@
 'use client';
 import Button from '@/components/button';
+import { UseAuth } from '@/contexts/authContext/authContext';
 import useSnackbarHandler from '@/hooks/useSnackbarHandler';
 import { api } from '@/services/api';
 import { SignUpService } from '@/services/requests/signUp/signUpService';
@@ -40,6 +41,7 @@ export default function RegisterPage() {
   });
   const t = useTranslations('register');
   const tError = useTranslations('validationInputError');
+  const { isAuthenticated } = UseAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
@@ -108,7 +110,7 @@ export default function RegisterPage() {
                 >
                   <KeyboardArrowLeftIcon alignmentBaseline="central" />
                   <Typography variant="subtitle1" color="primary.main">
-                    {t('backBtn')}
+                    {isAuthenticated ? t('backBtnAlt') : t('backBtn')}
                   </Typography>
                 </Link>
               </Stack>

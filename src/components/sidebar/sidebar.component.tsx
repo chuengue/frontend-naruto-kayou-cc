@@ -1,10 +1,10 @@
 'use client';
 import { SidebarOption, useSidebarOptions } from '@/constants/sidebarOptions';
-import { AuthContext } from '@/contexts/authContext/authContext';
+import { UseAuth } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
 import { Box, Divider, Typography } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Menu,
   MenuItem,
@@ -27,7 +27,7 @@ function SidebarNav() {
       setClosed: state.actions.setClosed
     }))
   );
-  const { userData } = useContext(AuthContext);
+  const { userData, getUserFetchLoading } = UseAuth();
   function filterSidebarOption(option: SidebarOption) {
     if (option.onlyFor && option.onlyFor.length > 0) {
       if (userData?.roles.some(role => option.onlyFor?.includes(role))) {
@@ -37,6 +37,7 @@ function SidebarNav() {
     }
     return option;
   }
+  console.log({ getUserFetchLoading });
   const menuItemStyles: MenuItemStyles = {
     root: {
       fontSize: '13px',
@@ -63,11 +64,6 @@ function SidebarNav() {
       '&:hover': {
         backgroundColor: theme.palette.primary.light,
         borderRadius: '16px'
-        // color: theme.palette.primary.main,
-        // fontWeight: 'medium',
-        // '& .ps-menu-icon': {
-        //   color: theme.palette.primary.main
-        // }
       }
     },
     label: ({ open }) => ({
@@ -93,6 +89,7 @@ function SidebarNav() {
           variant="middle"
           sx={{ backgroundColor: 'primary.light', mb: '16px' }}
         />
+
         <Menu menuItemStyles={menuItemStyles}>
           {sidebarOptions.map(option => {
             return option.children ? (
