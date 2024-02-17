@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const loginSchema = z.object({
   identifier: z
     .string()
-    .min(1, { message: 'Campo inválido' })
+    .min(1, { message: 'invalidField' })
     .refine(
       value => {
         if (value.includes('@')) {
@@ -14,7 +14,7 @@ export const loginSchema = z.object({
           return true;
         }
       },
-      { message: 'Formato de e-mail inválido' }
+      { message: 'invalidEmail' }
     ),
-  password: z.string().min(8, { message: 'Campo inválido' })
+  password: z.string().min(8, { message: 'invalidField' })
 });

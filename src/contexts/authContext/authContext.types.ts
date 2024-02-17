@@ -11,6 +11,8 @@ export interface AuthContextInterface {
   isLoading: boolean;
   isAdmin: boolean;
   isSuperAdmin: boolean;
+  getUserFetchStatus: 'error' | 'success' | 'pending';
+  getUserFetchLoading: boolean;
   signIn: (data: SignData) => Promise<void>;
   signOut: () => void;
   refetchUser: (

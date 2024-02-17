@@ -17,6 +17,7 @@ import {
   Typography
 } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -37,6 +38,9 @@ export default function RegisterPage() {
     mode: 'onBlur',
     resolver: zodResolver(registerSchema)
   });
+  const t = useTranslations('register');
+  const tError = useTranslations('validationInputError');
+
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
   const { replace } = useRouter();
@@ -81,6 +85,7 @@ export default function RegisterPage() {
         height="100vh"
         width="100vw"
         bgcolor="offWhite.main"
+        overflow="hidden"
       >
         <form onSubmit={handleSubmit(data => signUpFn({ data }))}>
           <Paper
@@ -88,8 +93,8 @@ export default function RegisterPage() {
             sx={{
               padding: 2,
               borderRadius: 2.5,
-              width: 'auto',
-              height: 'auto'
+              width: { xs: '100vw', sm: '100vw', md: 'auto', lg: 'auto' },
+              height: { xs: '100vh', sm: '100vh', md: '900px', lg: '900px' }
             }}
           >
             <Box>
@@ -103,55 +108,58 @@ export default function RegisterPage() {
                   }}
                 >
                   <KeyboardArrowLeftIcon alignmentBaseline="central" />
-                  <Typography variant="subtitle1" color={'GrayText'}>
-                    Voltar
+                  <Typography variant="subtitle1" color="primary.main">
+                    {t('backBtn')}
                   </Typography>
                 </Link>
               </Stack>
               <Stack alignItems="center" sx={{ pb: 8, pt: 6 }}>
-                <img src="/assets/logo.png" width={100} height={40} />
+                <img src="/assets/logo.png" width="180px" height="auto" />
               </Stack>
-              <Stack
-                id="inputs"
-                spacing={3}
-                paddingX={2}
-                sx={{ width: { xs: '350px', lg: '400px' } }}
-              >
+              <Stack id="inputs" spacing={3} paddingX={2} width="400px">
                 <TextField
                   type="email"
-                  label="E-mail"
+                  label={t('inputLabelEmail')}
                   autoComplete="email"
                   inputProps={{ ...register('email') }}
                   error={!!errors.email}
-                  helperText={errors.email?.message}
+                  helperText={
+                    errors.email ? tError(errors.email?.message) : null
+                  }
                 ></TextField>
                 <TextField
                   type="text"
-                  label="Nome de usuário"
+                  label={t('usernameLabel')}
                   autoComplete="username"
                   inputProps={{ ...register('username') }}
                   error={!!errors.username}
-                  helperText={errors.username?.message}
+                  helperText={
+                    errors.username ? tError(errors.username?.message) : null
+                  }
                 ></TextField>
                 <TextField
                   type="text"
-                  label="Nome"
+                  label={t('firstNameLabel')}
                   autoComplete="given-name"
                   inputProps={{ ...register('firstName') }}
                   error={!!errors.firstName}
-                  helperText={errors.firstName?.message}
+                  helperText={
+                    errors.firstName ? tError(errors.firstName?.message) : null
+                  }
                 ></TextField>
                 <TextField
                   type="text"
-                  label="Sobrenome"
+                  label={t('lastNameLabel')}
                   autoComplete="family-name"
                   inputProps={{ ...register('lastName') }}
                   error={!!errors.lastName}
-                  helperText={errors.lastName?.message}
+                  helperText={
+                    errors.lastName ? tError(errors.lastName?.message) : null
+                  }
                 ></TextField>
                 <TextField
                   type="tel"
-                  label="Telefone"
+                  label={t('phoneNumberLabel')}
                   autoComplete="tel"
                   inputProps={{ ...register('phoneNumber') }}
                   error={!!errors.phoneNumber}
@@ -159,11 +167,13 @@ export default function RegisterPage() {
                 ></TextField>
                 <TextField
                   type={showPassword ? 'text' : 'password'}
-                  label="Senha"
+                  label={t('passwordLabel')}
                   autoComplete="new-password"
                   inputProps={{ ...register('password') }}
                   error={!!errors.password}
-                  helperText={errors.password?.message}
+                  helperText={
+                    errors.password ? tError(errors.password?.message) : null
+                  }
                   InputProps={{
                     endAdornment: (
                       <IconButton
@@ -179,21 +189,27 @@ export default function RegisterPage() {
                 ></TextField>
                 <TextField
                   type={showPassword ? 'text' : 'password'}
-                  label="Confirme a senha"
+                  label={t('confirmPasswordLabel')}
                   autoComplete="new-password"
                   onChange={e => {
                     setConfirmPassword(e.target.value);
                   }}
                   onBlur={() => matchPassword()}
                   error={!!errors.password}
-                  helperText={errors.password?.message}
+                  helperText={
+                    errors.password ? tError(errors.password?.message) : null
+                  }
                 ></TextField>
               </Stack>
             </Box>
 
-            <Stack direction="column" spacing={20} pt={8}>
-              <Button type="submit" isLoading={isPending}>
-                Inscrever-se
+            <Stack direction="column" spacing={20} pt={5} paddingX={2}>
+              <Button
+                type="submit"
+                isLoading={isPending}
+                styled="containedStyle"
+              >
+                {t('submitBtn')}
               </Button>
               <Stack
                 direction="row"

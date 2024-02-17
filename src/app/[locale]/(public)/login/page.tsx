@@ -13,6 +13,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,6 +29,9 @@ export default function LoginPage() {
     mode: 'onBlur',
     resolver: zodResolver(loginSchema)
   });
+  const t = useTranslations('login');
+  const tError = useTranslations('validationInputError');
+
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -59,9 +63,7 @@ export default function LoginPage() {
         title="Função em desenvolvimento"
       >
         <Box width={400}>
-          <Typography>
-            Caso precise de ajuda entre em contato por WhatsApp: +5521980985200
-          </Typography>
+          <Typography>{t('temporaryModalForgotPassword')}</Typography>
         </Box>
       </ModalComponent>
       <Box
@@ -89,20 +91,26 @@ export default function LoginPage() {
               <Stack id="inputs" spacing={2}>
                 <TextField
                   type="text"
-                  label="E-mail ou nome de usuário"
+                  label={t('inputLabelEmail')}
                   autoComplete="nickname"
                   inputProps={{ ...register('identifier') }}
                   error={!!errors.identifier}
-                  helperText={errors.identifier?.message}
+                  helperText={
+                    errors.identifier
+                      ? tError(errors.identifier?.message)
+                      : null
+                  }
                 ></TextField>
 
                 <TextField
                   type={showPassword ? 'text' : 'password'}
-                  label="Senha"
+                  label={t('inputLabelPassword')}
                   autoComplete="current-password"
                   inputProps={{ ...register('password') }}
                   error={!!errors.password}
-                  helperText={errors.password?.message}
+                  helperText={
+                    errors.password ? tError(errors.password?.message) : null
+                  }
                   InputProps={{
                     endAdornment: (
                       <IconButton
@@ -123,7 +131,7 @@ export default function LoginPage() {
                   titleSize={13}
                   styled="textButtonStyle"
                 >
-                  Esqueceu a senha ?
+                  {t('forgotPassword')}
                 </Button>
               </Stack>
             </Box>
@@ -134,7 +142,7 @@ export default function LoginPage() {
                 isLoading={isLoading}
                 styled="containedStyle"
               >
-                Entrar
+                {t('signInBtn')}
               </Button>
               <Stack
                 direction="row"
@@ -142,10 +150,12 @@ export default function LoginPage() {
                 spacing={2.1}
                 justifyContent="center"
               >
-                <Typography variant="caption">Ainda não tem conta?</Typography>
+                <Typography variant="caption">
+                  {t('signUpDescription')}
+                </Typography>
                 <Link href={'/register'}>
                   <Button titleSize={13} styled="textButtonStyle">
-                    Registre-se
+                    {t('signUpBtn')}
                   </Button>
                 </Link>
               </Stack>

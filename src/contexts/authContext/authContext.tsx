@@ -22,7 +22,7 @@ export const AuthContext = createContext({} as AuthContextInterface);
 
 export const AuthProvider = ({ children }) => {
   const { showErrorSnackbar } = useSnackbarHandler();
-  const { replace } = useRouter();
+  const { replace, push } = useRouter();
   const queryClient = new QueryClient();
 
   const [userData, setUserData] = useState<User | null>(null);
@@ -60,7 +60,9 @@ export const AuthProvider = ({ children }) => {
     refetch: refetchUser,
     isError,
     error,
-    isSuccess
+    isSuccess,
+    isLoading: getUserFetchLoading,
+    status: getUserFetchStatus
   } = useQuery({
     queryKey: ['userData'],
     queryFn: () => whoamiService(api),
@@ -72,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     deleteCookie('authToken');
     SetIsAuthenticated(false);
     queryClient.invalidateQueries();
-    replace('/home');
+    push('/home');
   }, [queryClient, SetIsAuthenticated, isAuthenticated]);
 
   const handleUserDataUpdate = useCallback(() => {
@@ -96,6 +98,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     handleUserDataUpdate();
   }, [handleUserDataUpdate]);
+
   const isLoading = mutation.isPending;
 
   const signIn = async ({ identifier, password }: SignData): Promise<void> => {
@@ -110,6 +113,8 @@ export const AuthProvider = ({ children }) => {
         isLoading,
         isAdmin,
         isSuperAdmin,
+        getUserFetchStatus,
+        getUserFetchLoading,
         signIn,
         refetchUser,
         signOut

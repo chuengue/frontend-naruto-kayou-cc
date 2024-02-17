@@ -1,5 +1,54 @@
 {
-  "Index": {
-    "title": "ola mundo"
+  "index": {
+    "title": {
+      "title":"ola mundo"
+    }
+  },
+  "validationInputError": {
+    "invalidField": "Campo inválido",
+    "invalidEmail": "Formato de e-mail inválido",
+    "invalidName": "Digite um nome válido",
+    "minLength": "A senha deve ter pelo menos 8 caracteres",
+    "notHaveUppercase":"A senha deve conter pelo menos uma letra maiúscula" ,
+    "notHaveSmallage":"A senha deve conter pelo menos uma letra minúscula" ,
+    "notHaveNumber": "A senha deve conter pelo menos um número",
+    "cannotContainAtSign": "Não pode conter '@'"
+    
+  },
+  "sidebar":{
+    "homeLabel": "Home",
+    "collectionsLabel": "Coleções",
+    "newCollectionLabel":"Nova coleção",
+    "myCollectionsLabel": "Minhas coleções",
+    "permissionsLabel": "Permissões",
+    "wishListLabel": "Lista de Desejos",
+    "adminOperations":"Operações",
+    "cardBaseManagement": "Gerenciar banco de cards"    
+  },
+  "header": {
+    "logout": "Sair",
+    "myProfile": "Meu perfil",
+    "singUpBtn": "Cadastre-se",
+    "signInBtn": "Entrar"    
+  },
+  "login": {
+    "signUpBtn": "Registre-se",
+    "signUpDescription":"Ainda não tem conta?",
+    "signInBtn": "Entrar",
+    "forgotPassword": "Esqueceu a senha?",
+    "inputLabelEmail" :"E-email ou nome de usuário",
+    "inputLabelPassword" :"Senha",
+    "temporaryModalForgotPassword": " Caso precise de ajuda entre em contato por WhatsApp: +5521980985200"
+  },
+  "register": {
+    "backBtn":"Voltar para Login",
+    "inputLabelEmail" :"E-email",
+    "usernameLabel": "Nome de usuário",
+    "firstNameLabel": "Nome",
+    "lastNameLabel": "Sobrenome",
+    "phoneNumberLabel": "Telefone",
+    "passwordLabel" : "Senha",
+    "confirmPasswordLabel" : "Confirme senha",
+    "submitBtn": "Inscrever-se"
   }
 }

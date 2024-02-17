@@ -1,5 +1,53 @@
 {
-  "Index": {
-    "title": "Hello world!"
+  "header": {
+    "logout": "Log out",
+    "myProfile": "My Profile",
+    "signInBtn": "Login",
+    "singUpBtn": "Sign up"
+  },
+  "index": {
+    "title": {
+      "title": "Hello world"
+    }
+  },
+  "login": {
+    "forgotPassword": "Password forgotten ?",
+    "inputLabelEmail": "Email or username",
+    "inputLabelPassword": "Password",
+    "signInBtn": "Login",
+    "signUpBtn": "Register",
+    "signUpDescription": "No account yet?",
+    "temporaryModalForgotPassword": " If you need help, contact us by WhatsApp: +5521980985200"
+  },
+  "register": {
+    "backBtn": "Back to Login",
+    "confirmPasswordLabel": "Confirm password",
+    "firstNameLabel": "Name",
+    "inputLabelEmail": "E-Mail",
+    "lastNameLabel": "Last name",
+    "passwordLabel": "Password",
+    "phoneNumberLabel": "Phone number",
+    "submitBtn": "Sign-up",
+    "usernameLabel": "Username"
+  },
+  "sidebar": {
+    "adminOperations": "Operações",
+    "cardBaseManagement": "Manage card bank",
+    "collectionsLabel": "Collections",
+    "homeLabel": "Home",
+    "myCollectionsLabel": "My collections",
+    "newCollectionLabel": "New collection",
+    "permissionsLabel": "Permissões",
+    "wishListLabel": "Lista de Desejos"
+  },
+  "validationInputError": {
+    "cannotContainAtSign": "Cannot contain '@'",
+    "invalidEmail": "Invalid email format",
+    "invalidField": "Invalid field",
+    "invalidName": "Please enter a valid name",
+    "minLength": "Password must be at least 8 characters long",
+    "notHaveNumber": "A senha deve conter pelo menos um número!",
+    "notHaveSmallage": "The password must contain at least one lowercase letter",
+    "notHaveUppercase": "The password must contain at least one capital letter"
   }
 }

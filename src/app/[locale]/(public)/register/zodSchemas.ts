@@ -9,12 +9,12 @@ export const registerSchema = z.object({
           value
         ),
       {
-        message: 'E-mail inválido'
+        message: 'invalidEmail'
       }
     ),
   username: z
     .string()
-    .min(4, { message: 'Campo inválido' })
+    .min(4, { message: 'invalidField' })
     .refine(
       value => {
         if (value.includes('@')) {
@@ -23,7 +23,7 @@ export const registerSchema = z.object({
           return true;
         }
       },
-      { message: 'Não pode conter "@"' }
+      { message: 'cannotContainAtSign' }
     ),
   firstName: z
     .string()
@@ -32,7 +32,7 @@ export const registerSchema = z.object({
       value => {
         return /[A-Za-z]/.test(value);
       },
-      { message: 'Digite um nome válido' }
+      { message: 'invalidName' }
     ),
   lastName: z
     .string()
@@ -41,20 +41,20 @@ export const registerSchema = z.object({
       value => {
         return /[A-Za-z]/.test(value);
       },
-      { message: 'Digite um nome válido' }
+      { message: 'invalidName' }
     ),
   phoneNumber: z.string(),
 
   password: z
     .string()
-    .min(8, { message: 'A senha deve ter pelo menos 8 caracteres' })
+    .min(8, { message: 'minLength' })
     .refine(value => /[a-z]/.test(value), {
-      message: 'A senha deve conter pelo menos uma letra minúscula'
+      message: 'notHaveSmallage'
     })
     .refine(value => /[A-Z]/.test(value), {
-      message: 'A senha deve conter pelo menos uma letra maiúscula'
+      message: 'notHaveUppercase'
     })
     .refine(value => /[0-9]/.test(value), {
-      message: 'A senha deve conter pelo menos um número'
+      message: 'notHaveNumber'
     })
 });
