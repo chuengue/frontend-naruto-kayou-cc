@@ -3,7 +3,9 @@
     "logout": "Log out",
     "myProfile": "My Profile",
     "signInBtn": "Login",
-    "singUpBtn": "Sign up"
+    "singUpBtn": "Sign up",
+    "changeTranslateTooltip": "Change language",
+    "myProfileTooltip": "Options"
   },
   "index": {
     "title": {
@@ -31,14 +33,14 @@
     "usernameLabel": "Username"
   },
   "sidebar": {
-    "adminOperations": "Operações",
-    "cardBaseManagement": "Manage card bank",
+    "adminOperations": "Operations",
+    "cardBaseManagement": "Cards database",
     "collectionsLabel": "Collections",
     "homeLabel": "Home",
     "myCollectionsLabel": "My collections",
     "newCollectionLabel": "New collection",
-    "permissionsLabel": "Permissões",
-    "wishListLabel": "Lista de Desejos"
+    "permissionsLabel": "Permissions",
+    "wishListLabel": "Wishlist"
   },
   "validationInputError": {
     "cannotContainAtSign": "Cannot contain '@'",

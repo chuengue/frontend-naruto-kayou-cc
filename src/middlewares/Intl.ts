@@ -11,7 +11,6 @@ export function withMiddleware2(middleware: CustomMiddleware) {
       locales,
       pathnames,
       localePrefix,
-      localeDetection: false,
       defaultLocale: 'pt'
     });
     return response(request);

@@ -1,5 +1,5 @@
 'use client';
-import { SidebarOption, sidebarOptions } from '@/constants/sidebarOptions';
+import { SidebarOption, useSidebarOptions } from '@/constants/sidebarOptions';
 import { AuthContext } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
 import { Box, Divider, Typography } from '@mui/material';
@@ -19,7 +19,7 @@ import SidebarHeader from './components/sidebarHeader.component';
 function SidebarNav() {
   const { push } = useRouter();
   const pathname = usePathname();
-
+  const { sidebarOptions } = useSidebarOptions();
   const { isCollapsed, toggled, setClosed } = useSidebarStore(
     useShallow(state => ({
       isCollapsed: state.state.isCollapsed,
@@ -87,7 +87,7 @@ function SidebarNav() {
           color: theme.palette.secondary.main
         }}
       >
-        <SidebarHeader></SidebarHeader>
+        <SidebarHeader />
         <Divider
           flexItem
           variant="middle"
@@ -101,17 +101,26 @@ function SidebarNav() {
                 key={option.title}
                 icon={option.icon}
               >
-                {option.children.map(subOption => (
-                  <MenuItem
-                    icon={subOption.icon}
-                    key={subOption.title}
-                    onClick={() => push(subOption.path)}
-                  >
-                    <Typography fontWeight="400" variant="body2">
-                      {subOption.title}
-                    </Typography>
-                  </MenuItem>
-                ))}
+                <React.Fragment>
+                  {option.children.map(
+                    subOption =>
+                      filterSidebarOption(subOption) && (
+                        <MenuItem
+                          key={subOption.title} // Corrigido: a chave deve ser definida no MenuItem
+                          onClick={() => push(subOption.path)}
+                          icon={subOption.icon}
+                        >
+                          <Typography
+                            fontWeight="400"
+                            variant="body2"
+                            textOverflow={'clip'}
+                          >
+                            {subOption.title}
+                          </Typography>
+                        </MenuItem>
+                      )
+                  )}
+                </React.Fragment>
               </SubMenu>
             ) : (
               <React.Fragment key={option.title}>

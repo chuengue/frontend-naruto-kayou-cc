@@ -67,7 +67,6 @@ export default function RegisterPage() {
 
   const matchPassword = () => {
     const password = getValues('password');
-    console.log(password === confirmPassword);
     if (!(password === confirmPassword)) {
       setError('password', {
         type: 'matchPassword',

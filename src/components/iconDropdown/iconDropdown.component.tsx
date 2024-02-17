@@ -4,20 +4,15 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  MenuItemProps,
   MenuProps,
   SvgIconOwnProps,
   Typography,
   alpha,
   styled
 } from '@mui/material';
-import React, { ReactElement, ReactNode, useState } from 'react';
-export interface HeaderMenuOptionProps {
-  title: string;
-  onClick?: () => void;
-  icon?: ReactNode;
-  children?: MenuItemProps[];
-}
+import React, { ReactElement, useState } from 'react';
+import { HeaderMenuOptionProps } from '../header/header.types';
+
 export interface IconDropdownProps {
   options: HeaderMenuOptionProps[];
   icon: ReactElement;
@@ -88,17 +83,20 @@ const IconDropdown = ({
     }
   }));
   return (
-    <>
-      <IconButton onClick={handleOpenUserMenu} size="small">
+    <div>
+      <IconButton onClick={handleOpenUserMenu} size="small" sx={{ padding: 0 }}>
         {React.cloneElement(icon, {
-          color: iconColor,
-          style: { fontSize: '28px' }
+          color: iconColor
         })}
       </IconButton>
       <StyledMenu open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
         {options.map((item, index) => (
           <div key={item.title}>
-            <MenuItem key={item.title} onClick={item.onClick}>
+            <MenuItem
+              key={item.title}
+              onClick={item.onClick}
+              selected={item.selected}
+            >
               {item.icon}
               <Typography
                 textAlign="center"
@@ -115,7 +113,7 @@ const IconDropdown = ({
           </div>
         ))}
       </StyledMenu>
-    </>
+    </div>
   );
 };
 

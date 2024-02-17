@@ -31,7 +31,6 @@ const Header = () => {
   useEffect(() => {
     setIsLoading(getUserFetchLoading);
   }, [getUserFetchLoading, isAuthenticated]);
-  console.log({ isLoading });
   return (
     <Box mx={3}>
       <AppBar
@@ -90,7 +89,6 @@ const Header = () => {
                 />
               </Stack>
             ) : (
-              // </Stack>
               <>
                 <Stack
                   direction="row"

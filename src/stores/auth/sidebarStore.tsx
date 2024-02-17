@@ -27,7 +27,6 @@ export const useSidebarStore = create<useSidebarStoreProps>((set, get) => ({
       set(state => ({
         state: { ...state.state, isClosed: !state.state.isClosed }
       }));
-      console.log(get().state.isClosed);
     },
     setClosed: status => {
       set(state => ({

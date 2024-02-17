@@ -23,13 +23,15 @@
     "permissionsLabel": "Permissões",
     "wishListLabel": "Lista de Desejos",
     "adminOperations":"Operações",
-    "cardBaseManagement": "Gerenciar banco de cards"    
+    "cardBaseManagement": "Banco de cards"    
   },
   "header": {
     "logout": "Sair",
     "myProfile": "Meu perfil",
     "singUpBtn": "Cadastre-se",
-    "signInBtn": "Entrar"    
+    "signInBtn": "Entrar",
+    "changeTranslateTooltip": "Trocar idioma",
+    "myProfileTooltip": "Opções"
   },
   "login": {
     "signUpBtn": "Registre-se",

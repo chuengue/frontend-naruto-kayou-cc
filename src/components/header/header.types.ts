@@ -4,4 +4,5 @@ export interface HeaderMenuOptionProps {
   title: string;
   onClick?: () => void;
   icon?: ReactNode;
+  selected?: boolean;
 }

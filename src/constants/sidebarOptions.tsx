@@ -1,64 +1,89 @@
 import {
-  AddBoxOutlined,
   AddToPhotosOutlined,
+  AdminPanelSettings,
   AutoAwesomeMotionOutlined,
   FavoriteBorderOutlined,
   HomeOutlined,
   LockOutlined,
-  PaddingOutlined
+  PaddingOutlined,
+  StorageRounded,
+  WorkspacePremium
 } from '@mui/icons-material';
-import { ReactNode } from 'react';
-export interface submenuOptions {
+import { useTranslations } from 'next-intl';
+
+export interface SubmenuOption {
   title: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
+  onlyFor?: string[];
   path: string;
 }
+
 export interface SidebarOption {
   title: string;
   counter?: number;
   path?: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   onlyFor?: string[];
-  children?: submenuOptions[] | null;
+  children?: SubmenuOption[] | null;
 }
 
-export const sidebarOptions: SidebarOption[] = [
-  {
-    title: 'Home',
-    path: '/home',
-    icon: <HomeOutlined />
-  },
-  {
-    title: 'Coleções',
-    icon: <PaddingOutlined />,
-    children: [
-      {
-        title: 'Nova coleção',
-        path: '/new-collection',
-        icon: <AddToPhotosOutlined />
-      },
-      {
-        title: 'Minhas coleções',
-        path: '/collections',
-        icon: <AutoAwesomeMotionOutlined />
-      }
-    ]
-  },
-  {
-    title: 'Lista de desejos',
-    path: '/wishList',
-    icon: <FavoriteBorderOutlined />
-  },
-  {
-    title: 'Cadastro de Cards',
-    path: '/card-registration',
-    onlyFor: ['admin'],
-    icon: <AddBoxOutlined />
-  },
-  {
-    title: 'Permissões',
-    path: '/permissions',
-    onlyFor: ['super_admin'],
-    icon: <LockOutlined />
-  }
-];
+export const useSidebarOptions = () => {
+  const t = useTranslations('sidebar');
+
+  const sidebarOptions: SidebarOption[] = [
+    {
+      title: t('homeLabel'),
+      path: '/home',
+      icon: <HomeOutlined />
+    },
+    {
+      title: t('collectionsLabel'),
+      icon: <PaddingOutlined />,
+      children: [
+        {
+          title: t('newCollectionLabel'),
+          path: '/new-collection',
+          icon: <AddToPhotosOutlined />
+        },
+        {
+          title: t('myCollectionsLabel'),
+          path: '/collections',
+          icon: <AutoAwesomeMotionOutlined />
+        }
+      ]
+    },
+    {
+      title: t('wishListLabel'),
+      path: '/wishList',
+      icon: <FavoriteBorderOutlined />
+    },
+    {
+      title: t('adminOperations'),
+      path: '/admin-panel',
+      onlyFor: ['admin'],
+      icon: <AdminPanelSettings />,
+      children: [
+        {
+          title: t('cardBaseManagement'),
+          path: '/card-manager',
+
+          icon: <StorageRounded />
+        },
+        {
+          title: t('permissionsLabel'),
+          path: '/permission',
+          onlyFor: ['super_admin'],
+          icon: <WorkspacePremium />
+        }
+      ]
+    },
+    {
+      title: 'Permissões',
+      path: '/permissions',
+      onlyFor: ['super_admin'],
+      icon: <LockOutlined />
+    }
+  ];
+
+  return { sidebarOptions };
+};
