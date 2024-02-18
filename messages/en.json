@@ -59,6 +59,9 @@
     "dialogModalNotSign": "Please sign in!",
     "dialogModalDesc": "You need to be signed in to your account to manage your wishlist",
     "dialogModalBtnConfirm": "Create account",
-    "dialogModalBtnCancel": "Cancel"
+    "dialogModalBtnCancel": "Cancel",
+    "dialogModalRemoveCard": "Attention!",
+    "dialogModalRemoveCardDesc": "Do you really want to delete this card from the collection?",
+    "dialogModalRemoveCardConfirm": "Delete"
   }
 }

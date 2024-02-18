@@ -59,7 +59,11 @@
     "dialogModalNotSign": "Por favor faça login !",
     "dialogModalDesc": "Você precisa estar conectado à sua conta para adicionar cards a sua lista de desejos.",
     "dialogModalBtnConfirm" :"Criar conta ",
-    "dialogModalBtnCancel" :"Cancelar"
+    "dialogModalBtnCancel" :"Cancelar",
+    "dialogModalRemoveCard": "Atenção!",
+    "dialogModalRemoveCardDesc": "Deseja realmente excluir esse card da coleção ?",
+    "dialogModalRemoveCardConfirm" :"Excluir"
+    
 
 
 

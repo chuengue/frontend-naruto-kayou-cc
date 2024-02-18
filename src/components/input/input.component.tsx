@@ -5,9 +5,12 @@ import {
   styled
 } from '@mui/material';
 import { ReactNode } from 'react';
-export interface InputComponentProps extends FilledTextFieldProps {
+export interface InputComponentProps
+  extends Omit<FilledTextFieldProps, 'variant'> {
   startContent?: ReactNode;
   endContent?: ReactNode;
+  variant: string;
+  textAlign?: string;
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -15,11 +18,16 @@ const InputComponent: React.FC<InputComponentProps> = ({
   placeholder,
   startContent,
   endContent,
+  variant = 'filled',
+  textAlign = 'start',
   ...FilledTextFieldProps
 }) => {
   const CustomInput = styled((props: TextFieldProps) => (
     <TextField {...props} />
   ))(({ theme }) => ({
+    '& .MuiInputBase-input': {
+      textAlign: textAlign
+    },
     '& .MuiFilledInput-root': {
       overflow: 'hidden',
       borderRadius: 12,
@@ -41,7 +49,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
       {...FilledTextFieldProps}
       placeholder={placeholder}
       label={label}
-      variant="filled"
+      variant={variant}
       fullWidth
       InputProps={{
         startAdornment: startContent,

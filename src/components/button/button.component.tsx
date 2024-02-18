@@ -6,25 +6,30 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
   isLoading = false,
   titleSize,
   rounded = false,
-  styled,
+  styled = 'containedStyle',
+  color,
   ...buttonProps
 }) => {
   const outlinedStyle = {
     borderRadius: rounded ? '25px' : 2,
     backgroundColor: 'transparent',
     border: '1px solid',
-    borderColor: 'primary.main',
+    borderColor: color ? color : 'primary.main',
     color: 'offWhite.secondary'
   };
   const textButtonStyle = {
     backgroundColor: 'transparent',
-    color: 'secondary.main'
+    color: 'secondary.main',
+    borderRadius: rounded ? '25px' : 2
   };
 
   const containedStyle = {
     borderRadius: rounded ? '25px' : 2,
-    backgroundColor: 'primary.main',
-    color: 'offWhite.main'
+    backgroundColor: color ? color : 'primary.main',
+    color: 'offWhite.main',
+    ':hover': {
+      backgroundColor: 'primary.light'
+    }
   };
   const handleStyled = (style: string) => {
     switch (style) {

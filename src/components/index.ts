@@ -1,4 +1,6 @@
 export { default as ButtonComponent } from './button';
+export { default as CardViewer } from './cardViewer';
+export { default as dialogModal } from './dialogModal';
 export { default as Header } from './header';
 export { default as IconDropdown } from './iconDropdown';
 export { default as InputComponent } from './input';
