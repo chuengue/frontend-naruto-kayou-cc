@@ -3,7 +3,7 @@
     "logout": "Log out",
     "myProfile": "My Profile",
     "signInBtn": "Login",
-    "singUpBtn": "Sign up",
+    "signUpBtn": "Sign-up",
     "changeTranslateTooltip": "Change language",
     "myProfileTooltip": "Options"
   },
@@ -11,6 +11,8 @@
     "title": {
       "title": "Hello world"
     }
+
+    
   },
   "login": {
     "forgotPassword": "Password forgotten ?",
@@ -52,5 +54,11 @@
     "notHaveNumber": "A senha deve conter pelo menos um número!",
     "notHaveSmallage": "The password must contain at least one lowercase letter",
     "notHaveUppercase": "The password must contain at least one capital letter"
+  },
+  "cardViewer": {
+    "dialogModalNotSign": "Please sign in!",
+    "dialogModalDesc": "You need to be signed in to your account to manage your wishlist",
+    "dialogModalBtnConfirm": "Create account",
+    "dialogModalBtnCancel": "Cancel"
   }
 }

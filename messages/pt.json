@@ -26,6 +26,7 @@
     "cardBaseManagement": "Banco de cards"    
   },
   "header": {
+    "signUpBtn": "Registre-se",
     "logout": "Sair",
     "myProfile": "Meu perfil",
     "singUpBtn": "Cadastre-se",
@@ -53,5 +54,17 @@
     "passwordLabel" : "Senha",
     "confirmPasswordLabel" : "Confirme senha",
     "submitBtn": "Inscrever-se"
+  },
+  "cardViewer":{
+    "dialogModalNotSign": "Por favor faça login !",
+    "dialogModalDesc": "Você precisa estar conectado à sua conta para adicionar cards a sua lista de desejos.",
+    "dialogModalBtnConfirm" :"Criar conta ",
+    "dialogModalBtnCancel" :"Cancelar"
+
+
+
+
+
+
   }
 }

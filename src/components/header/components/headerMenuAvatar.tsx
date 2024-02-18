@@ -1,43 +1,17 @@
 'use client';
 import { IconDropdown } from '@/components';
 import { UseAuth } from '@/contexts/authContext/authContext';
-import { usePathname, useRouter } from '@/navigation';
-import { HdrWeak, LogoutRounded, Person, Translate } from '@mui/icons-material';
-import { Avatar, CircularProgress, Divider, Tooltip } from '@mui/material';
-import { useLocale, useTranslations } from 'next-intl';
-import { useTransition } from 'react';
+import { LogoutRounded, Person } from '@mui/icons-material';
+import { Avatar, Divider, Tooltip } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { HeaderMenuOptionProps } from '../header.types';
+import SwitchLocale from './switchLocale';
 
 const UserMenuHeader = () => {
   const { signOut, userData } = UseAuth();
 
   const t = useTranslations('header');
 
-  const { replace } = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const pathname = usePathname();
-  const locale = useLocale();
-  function onSelectChange(nextLocale: string) {
-    if (locale === nextLocale) return;
-    startTransition(() => {
-      replace(pathname, { locale: nextLocale });
-    });
-  }
-
-  const translateMenuOptions: HeaderMenuOptionProps[] = [
-    {
-      title: 'Ingles',
-      icon: <HdrWeak />,
-      selected: locale === 'en',
-      onClick: () => onSelectChange('en')
-    },
-    {
-      title: 'Portuguese',
-      onClick: () => onSelectChange('pt'),
-      selected: locale === 'pt',
-      icon: <HdrWeak />
-    }
-  ];
   const profileMenuOptions: HeaderMenuOptionProps[] = [
     {
       title: t('myProfile'),
@@ -64,16 +38,7 @@ const UserMenuHeader = () => {
 
   return (
     <>
-      {isPending ? (
-        <CircularProgress size={20} color="secondary" sx={{ mr: 1 }} />
-      ) : (
-        <Tooltip title={t('changeTranslateTooltip')}>
-          <div>
-            <IconDropdown options={translateMenuOptions} icon={<Translate />} />
-          </div>
-        </Tooltip>
-      )}
-
+      <SwitchLocale />
       <Divider
         orientation="vertical"
         variant="middle"

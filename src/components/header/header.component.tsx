@@ -11,15 +11,17 @@ import {
   Stack,
   Toolbar
 } from '@mui/material';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import Button from '../button';
 import Input from '../input';
 import UserMenuHeader from './components/headerMenuAvatar';
+import SwitchLocale from './components/switchLocale';
 const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
-
+  const t = useTranslations('header');
   const { toggleClosed } = useSidebarStore(
     useShallow(state => ({
       toggled: state.state.isClosed,
@@ -131,15 +133,15 @@ const Header = () => {
                     <>
                       <Button
                         variant="text"
-                        color="secondary"
                         size="small"
+                        styled="textButtonStyle"
                         titleSize="1.1em"
                         rounded
                         onClick={() => {
                           push('/register');
                         }}
                       >
-                        Cadastre-se
+                        {t('signUpBtn')}
                       </Button>
                       <Divider
                         orientation="vertical"
@@ -149,16 +151,23 @@ const Header = () => {
                       />
                       <Button
                         variant="text"
-                        color="secondary"
                         size="small"
+                        styled="textButtonStyle"
                         titleSize="1.1em"
                         rounded
                         onClick={() => {
                           push('/login');
                         }}
                       >
-                        Faça login
+                        {t('signInBtn')}
                       </Button>
+                      <Divider
+                        orientation="vertical"
+                        variant="middle"
+                        sx={{ mx: '8px' }}
+                        flexItem
+                      />
+                      <SwitchLocale />
                     </>
                   )}
                 </Stack>

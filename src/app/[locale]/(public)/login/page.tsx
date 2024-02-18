@@ -4,7 +4,11 @@ import ModalComponent from '@/components/modal/modal.component';
 import { UseAuth } from '@/contexts/authContext/authContext';
 import { SignData } from '@/contexts/authContext/authContext.types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  KeyboardArrowRight,
+  Visibility,
+  VisibilityOff
+} from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -31,18 +35,17 @@ export default function LoginPage() {
   });
   const t = useTranslations('login');
   const tError = useTranslations('validationInputError');
+  const { signIn, isLoading } = UseAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { signIn, isLoading } = UseAuth();
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
   };
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -85,6 +88,21 @@ export default function LoginPage() {
             }}
           >
             <Box sx={{ width: { xs: '300px', lg: '400px' } }}>
+              <Stack direction="row-reverse">
+                <Link
+                  href="/home"
+                  style={{
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Typography variant="subtitle1" color="primary.main">
+                    Home
+                  </Typography>
+                  <KeyboardArrowRight alignmentBaseline="central" />
+                </Link>
+              </Stack>
               <Stack alignItems="center" sx={{ py: 8 }}>
                 <img src="/assets/logo.png" width={100} height={40} />
               </Stack>
