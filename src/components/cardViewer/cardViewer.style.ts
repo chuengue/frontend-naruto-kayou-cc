@@ -13,5 +13,5 @@ export const BoxStyled = {
   p: 1,
   borderRadius: '16px',
   border: '1px solid ',
-  borderColor: 'offWhite.light',
+  borderColor: 'offWhite.light'
 };

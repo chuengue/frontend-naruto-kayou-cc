@@ -63,5 +63,10 @@
     "dialogModalRemoveCard": "Attention!",
     "dialogModalRemoveCardDesc": "Do you really want to delete this card from the collection?",
     "dialogModalRemoveCardConfirm": "Delete"
-  }
+  },
+  "collectionViewer":{
+    "cardQuantity": "Cards",
+    "private":"(Private)",
+    "public": "(Public)"
+}
 }

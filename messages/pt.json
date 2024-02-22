@@ -63,12 +63,10 @@
     "dialogModalRemoveCard": "Atenção!",
     "dialogModalRemoveCardDesc": "Deseja realmente excluir esse card da coleção ?",
     "dialogModalRemoveCardConfirm" :"Excluir"
-    
-
-
-
-
-
-
+  },
+  "collectionViewer":{
+    "cardQuantity": "Cards:",
+    "private":"(Privada)",
+    "public": "(Pública)"
   }
 }

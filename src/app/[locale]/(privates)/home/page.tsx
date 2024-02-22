@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import { CollectionViewer } from '@/components';
 
 export default function Home() {
   const mock = [
@@ -22,9 +22,7 @@ export default function Home() {
   // };
   return (
     <>
-      {mock.map(card => {
-        return <React.Fragment key={card.id}></React.Fragment>;
-      })}
+      <CollectionViewer />
     </>
   );
 }
