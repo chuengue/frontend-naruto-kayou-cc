@@ -83,7 +83,7 @@ const Header = () => {
                 <Skeleton
                   variant="rectangular"
                   width="123px"
-                  height="56px"
+                  height="53px"
                   animation="wave"
                   sx={{
                     borderRadius: '25px'
