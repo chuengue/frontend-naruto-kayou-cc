@@ -1,43 +1,59 @@
 'use client';
 import { Person } from '@mui/icons-material';
-import { Box, Paper, Stack, Typography } from '@mui/material';
+import { Box, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
+import {
+  boxStyle,
+  coverImgBoxStyle,
+  imgStyle
+} from './collectionViewer.styles';
 import { CollectionViewerProps } from './collectionViewer.types';
 
 const CollectionViewer = ({
   id,
   isPublic,
   title,
-  userData
+  userData,
+  cardQuantity,
+  coverImgUrl = 'https://s3.amazonaws.com/naruto-kayou-cards/cards-image/R-001.jpg',
+  onClick
 }: CollectionViewerProps) => {
   const t = useTranslations('collectionViewer');
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [coverImage, setCoverImage] = useState<unknown>(null);
+
+  useEffect(() => {
+    const preloadedImage = new Image();
+    preloadedImage.onload = () => {
+      setCoverImage(preloadedImage.src);
+      setIsImageLoaded(true);
+    };
+    preloadedImage.onerror = () => {
+      setIsImageLoaded(true);
+      setCoverImage('/assets/error_image.png');
+    };
+    preloadedImage.src = coverImgUrl;
+  }, [coverImgUrl]);
+
   return (
-    <Box
-      sx={{
-        display: 'inline-block',
-        borderColor: 'offWhite.light',
-        cursor: 'pointer',
-        transition: 'transform 0.3s ease',
-        '&:hover': {
-          transform: 'scale(1.01)'
-        }
-      }}
-    >
+    <Box sx={boxStyle} onClick={() => onClick(id)}>
       <Paper elevation={3} sx={{ padding: 1, borderRadius: '16px' }}>
         <Stack>
-          <Box
-            id="img"
-            sx={{
-              width: '320px',
-              height: '150px',
-              borderRadius: '16px',
-              backgroundSize: 'cover',
-              backgroundPosition: 'top',
-              boxShadow: 1,
-              backgroundImage:
-                'url("https://s3.amazonaws.com/naruto-kayou-cards/cards-image/R-001.jpg")'
-            }}
-          ></Box>
+          <Box sx={coverImgBoxStyle}>
+            {isImageLoaded ? (
+              !!coverImage && (
+                <img src={coverImage.toString()} id="img" style={imgStyle} />
+              )
+            ) : (
+              <Skeleton
+                variant="rectangular"
+                width="320px"
+                height="150px"
+                animation="wave"
+              />
+            )}
+          </Box>
           <Stack
             id="description"
             flexDirection="row"
@@ -79,7 +95,7 @@ const CollectionViewer = ({
                 {t('cardQuantity')}
               </Typography>
               <Typography variant="caption" color="primary.main">
-                74
+                {cardQuantity}
               </Typography>
             </Stack>
           </Stack>

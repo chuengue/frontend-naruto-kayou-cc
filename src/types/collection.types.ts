@@ -10,6 +10,6 @@ export interface CollectionData {
   updatedAt: string;
   userData: {
     username: string;
-    phoneNumber: string | null;
+    phoneNumber?: string | null;
   };
 }

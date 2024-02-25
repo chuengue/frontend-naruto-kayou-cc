@@ -21,7 +21,8 @@
     "nextjs",
     "Noti",
     "notistack",
-    "Roboto"
+    "Roboto",
+    "tanstack"
   ],
   "git.ignoreLimitWarning": true,
   "cSpell.language": "en,pt,pt-BR",

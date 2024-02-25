@@ -1,62 +1,73 @@
-import {
-  FilledTextFieldProps,
-  TextField,
-  TextFieldProps,
-  styled
-} from '@mui/material';
-import { ReactNode } from 'react';
-export interface InputComponentProps
-  extends Omit<FilledTextFieldProps, 'variant'> {
+'use client';
+import { TextField, TextFieldProps, styled } from '@mui/material';
+import { ReactNode, forwardRef } from 'react';
+
+export interface InputComponentProps extends Omit<TextFieldProps, 'ref'> {
+  label: string;
+  placeholder: string;
   startContent?: ReactNode;
   endContent?: ReactNode;
-  variant: string;
   textAlign?: string;
 }
 
-const InputComponent: React.FC<InputComponentProps> = ({
-  label,
-  placeholder,
-  startContent,
-  endContent,
-  variant = 'filled',
-  textAlign = 'start',
-  ...FilledTextFieldProps
-}) => {
-  const CustomInput = styled((props: TextFieldProps) => (
-    <TextField {...props} />
-  ))(({ theme }) => ({
-    '& .MuiInputBase-input': {
-      textAlign: textAlign
-    },
-    '& .MuiFilledInput-root': {
-      overflow: 'hidden',
-      borderRadius: 12,
-      backgroundColor: theme.palette.offWhite.main,
-      border: 0,
-      transition: theme.transitions.create([
-        'border-color',
-        'background-color',
-        'box-shadow'
-      ]),
+const CustomInput = styled(TextField)(({ theme }) => ({
+  '& .MuiInputBase-input': {},
+  '& .MuiFilledInput-root': {
+    overflow: 'hidden',
+    borderRadius: 12,
+    backgroundColor: theme.palette.offWhite.main,
+    border: 0,
+    transition: theme.transitions.create([
+      'border-color',
+      'background-color',
+      'box-shadow'
+    ]),
 
-      '& .MuiFilledInput-input': {
-        paddingTop: label ? '26px' : '8px'
-      }
+    '& .MuiFilledInput-input': {
+      paddingTop: '8px'
     }
-  }));
-  return (
-    <CustomInput
-      {...FilledTextFieldProps}
-      placeholder={placeholder}
-      label={label}
-      variant={variant}
-      fullWidth
-      InputProps={{
-        startAdornment: startContent,
-        endAdornment: endContent,
-        disableUnderline: true
-      }}
-    />
-  );
-};
+    // '&:hover': {
+    //   backgroundColor: theme.palette.primary.light
+    // }
+  }
+}));
+
+const InputComponent = forwardRef<HTMLDivElement, InputComponentProps>(
+  function InputComponent(
+    {
+      label,
+      placeholder,
+      startContent,
+      endContent,
+      value,
+      onChange,
+      name,
+      textAlign = 'start',
+      ...FilledTextFieldProps
+    },
+    ref
+  ) {
+    return (
+      <CustomInput
+        {...FilledTextFieldProps}
+        placeholder={placeholder}
+        label={label}
+        variant="filled"
+        fullWidth
+        inputRef={ref}
+        InputProps={{
+          startAdornment: startContent,
+          endAdornment: endContent,
+          onChange: onChange,
+          value: value,
+          name: name,
+          disableUnderline: true
+        }}
+      />
+    );
+  }
+);
+
+InputComponent.displayName = 'InputComponent';
+
 export default InputComponent;

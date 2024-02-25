@@ -12,6 +12,7 @@ export const BoxStyled = {
   display: 'inline-block',
   p: 1,
   borderRadius: '16px',
+  m: 1,
   border: '1px solid ',
   borderColor: 'offWhite.light'
 };

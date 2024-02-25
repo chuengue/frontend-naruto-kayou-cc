@@ -1,5 +1,4 @@
 export interface CardViewerProps {
-  card: narutoCardInterface;
   isAuthenticated: boolean;
   hasRemoveBtn?: boolean;
   hasFavBtn?: boolean;

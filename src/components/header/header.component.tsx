@@ -1,7 +1,7 @@
 'use client';
 import { UseAuth } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
-import { MenuOpen, Search } from '@mui/icons-material';
+import { MenuOpen } from '@mui/icons-material';
 import {
   AppBar,
   Box,
@@ -16,9 +16,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import Button from '../button';
-import Input from '../input';
 import UserMenuHeader from './components/headerMenuAvatar';
+import SearchBar from './components/searchBar/searchBar.component';
 import SwitchLocale from './components/switchLocale';
+
 const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations('header');
@@ -29,10 +30,21 @@ const Header = () => {
     }))
   );
   const { isAuthenticated, getUserFetchLoading } = UseAuth();
+
   const { push } = useRouter();
   useEffect(() => {
     setIsLoading(getUserFetchLoading);
   }, [getUserFetchLoading, isAuthenticated]);
+  // const [searchParams, setSearchParams] = useState({
+  //   box: '',
+  //   page: 1,
+  //   limit: 10,
+  //   name: '',
+  //   code: ''
+  // });
+
+  // const [searchParamsName, setSearchParamsName] = useState<string>('');
+
   return (
     <Box mx={3}>
       <AppBar
@@ -63,11 +75,7 @@ const Header = () => {
               style={{ marginLeft: '0px' }}
               gridRow={{ xs: 2, sm: 2, md: 1, lg: 1 }}
             >
-              <Input
-                placeholder="Buscar"
-                variant="filled"
-                endContent={<Search />}
-              />
+              <SearchBar />
             </Stack>
             {isLoading ? (
               <Stack

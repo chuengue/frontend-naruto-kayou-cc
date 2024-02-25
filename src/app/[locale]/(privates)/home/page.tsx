@@ -1,28 +1,65 @@
 'use client';
-import { CollectionViewer } from '@/components';
+import { CardViewerList, CollectionViewerList } from '@/components';
+import { useCardsQuery } from '@/hooks/useCardQuery';
+import { usePublicCollectionsQuery } from '@/hooks/usePublicCollectionQuery';
 
 export default function Home() {
-  const mock = [
-    {
-      id: '8d9d2829-c6a3-11ee-af4c-74563c2a3e61',
-      box: 'W1-T1',
-      rarity: 'R',
-      quantity: 32,
-      name: null,
-      code: 'R-001',
-      imgSrc:
-        'https://s3.amazonaws.com/naruto-kayou-cards/cards-image/R-001.jpg'
-    }
-  ];
-  // const removeCard = e => {
-  //   console.log(e);
-  // };
-  // const addCard = e => {
-  //   console.log(e);
-  // };
+  const { data, isLoading, isError } = useCardsQuery({});
+  const { data: publicCollectionsData } = usePublicCollectionsQuery({});
+
+  const parseCollectionsForList = () => {
+    return publicCollectionsData?.results.collections.map(collection => {
+      return {
+        id: collection.id,
+        title: collection.title,
+        // coverImgUrl: collection.coverImgUrl,
+        cardQuantity: collection.cardQuantity,
+        isPublic: collection.isPublic,
+        userData: collection.userData
+        // createdAt: collection.createdAt,
+        // updatedAt: collection.updatedAt
+      };
+    });
+  };
+
+  if (isLoading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (isError || !data) {
+    return <div>Erro ao carregar os dados</div>;
+  }
+  console.log(publicCollectionsData?.results.collections);
   return (
     <>
-      <CollectionViewer />
+      <CardViewerList
+        cards={data?.results}
+        cardViewerProps={{
+          isAuthenticated: true,
+          hasAddOrRemoveActions: false,
+          hasFavBtn: true,
+          hasRemoveBtn: false,
+          onClickFavBtn: () => {
+            console.log('onClickFavBtn');
+          },
+          onAddCard: e => {
+            console.log(e);
+          },
+          onRemoveCard: e => {
+            console.log(e);
+          },
+          onDecrementCard: e => {
+            console.log(e);
+          },
+          onIncrementCard: e => {
+            console.log(e);
+          }
+        }}
+      />
+      <CollectionViewerList
+        collections={parseCollectionsForList()}
+        onClick={() => {}}
+      />
     </>
   );
 }
