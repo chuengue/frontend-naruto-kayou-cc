@@ -1,14 +1,17 @@
 'use client';
-import { CardViewerList, CollectionViewerList } from '@/components';
-import { useCardsQuery } from '@/hooks/useCardQuery';
+import { CollectionViewerList, EmptyList } from '@/components';
 import { usePublicCollectionsQuery } from '@/hooks/usePublicCollectionQuery';
+import { Box, Skeleton, Stack } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
-  const { data, isLoading, isError } = useCardsQuery({});
-  const { data: publicCollectionsData } = usePublicCollectionsQuery({});
+  const t = useTranslations('home');
+  const { data, isError, isLoading } = usePublicCollectionsQuery({
+    limit: 99
+  });
 
   const parseCollectionsForList = () => {
-    return publicCollectionsData?.results.collections.map(collection => {
+    return data?.results.collections.map(collection => {
       return {
         id: collection.id,
         title: collection.title,
@@ -21,45 +24,42 @@ export default function Home() {
       };
     });
   };
+  const parseCollections = parseCollectionsForList();
 
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-
-  if (isError || !data) {
-    return <div>Erro ao carregar os dados</div>;
-  }
-  console.log(publicCollectionsData?.results.collections);
+  console.log(isLoading);
   return (
     <>
-      <CardViewerList
-        cards={data?.results}
-        cardViewerProps={{
-          isAuthenticated: true,
-          hasAddOrRemoveActions: false,
-          hasFavBtn: true,
-          hasRemoveBtn: false,
-          onClickFavBtn: () => {
-            console.log('onClickFavBtn');
-          },
-          onAddCard: e => {
-            console.log(e);
-          },
-          onRemoveCard: e => {
-            console.log(e);
-          },
-          onDecrementCard: e => {
-            console.log(e);
-          },
-          onIncrementCard: e => {
-            console.log(e);
-          }
-        }}
-      />
-      <CollectionViewerList
-        collections={parseCollectionsForList()}
-        onClick={() => {}}
-      />
+      <Stack
+        width="100%"
+        height="auto"
+        justifyContent="center"
+        alignItems="center"
+        pb="32px"
+      >
+        <img src="/assets/banner.png" alt="" />
+      </Stack>
+      {isLoading ? (
+        <Box>
+          <Skeleton
+            variant="rectangular"
+            height="300px"
+            sx={{ borderRadius: '16px' }}
+          />
+        </Box>
+      ) : parseCollections?.length === 0 ? (
+        <EmptyList message="No items found." />
+      ) : (
+        <Stack width="100%" alignItems="center">
+          <Stack justifyContent="center">
+            <CollectionViewerList
+              isCollapsed
+              title={t('collectionsBoxTitle')}
+              collections={parseCollections}
+              onClick={() => {}}
+            />
+          </Stack>
+        </Stack>
+      )}
     </>
   );
 }

@@ -17,6 +17,7 @@
   },
   "sidebar":{
     "homeLabel": "Home",
+    "allCards": "Todos os cards",
     "collectionsLabel": "Coleções",
     "newCollectionLabel":"Nova coleção",
     "myCollectionsLabel": "Minhas coleções",
@@ -68,5 +69,8 @@
     "cardQuantity": "Cards:",
     "private":"(Privada)",
     "public": "(Pública)"
+  },
+  "home": {
+    "collectionsBoxTitle" : "Últimas Coleções Criadas:"
   }
 }

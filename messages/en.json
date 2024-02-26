@@ -12,7 +12,6 @@
       "title": "Hello world"
     }
 
-    
   },
   "login": {
     "forgotPassword": "Password forgotten ?",
@@ -37,6 +36,7 @@
   },
   "sidebar": {
     "adminOperations": "Operations",
+    "allCards": "All cards",
     "cardBaseManagement": "Cards database",
     "collectionsLabel": "Collections",
     "homeLabel": "Home",
@@ -68,5 +68,8 @@
     "cardQuantity": "Cards",
     "private":"(Private)",
     "public": "(Public)"
-}
+  },
+"home": {
+  "collectionsBoxTitle": "Latest Collections Created:"
+  }
 }

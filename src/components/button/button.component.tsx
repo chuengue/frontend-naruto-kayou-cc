@@ -8,6 +8,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
   rounded = false,
   styled = 'containedStyle',
   color,
+  customStyles,
   ...buttonProps
 }) => {
   const outlinedStyle = {
@@ -48,7 +49,7 @@ const ButtonComponent: React.FC<ButtonComponentProps> = ({
     <Button
       {...buttonProps}
       disabled={buttonProps.disabled || isLoading}
-      sx={handleStyled(styled as string)}
+      sx={{ ...handleStyled(styled as string), ...customStyles }}
     >
       <Stack direction={'row'} alignItems="center">
         {isLoading && (

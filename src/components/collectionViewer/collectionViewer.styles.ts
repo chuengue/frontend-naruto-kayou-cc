@@ -2,6 +2,7 @@ export const boxStyle = {
   display: 'inline-block',
   borderColor: 'offWhite.light',
   cursor: 'pointer',
+  m: 1,
   transition: 'transform 0.3s ease',
   '&:hover': {
     transform: 'scale(1.01)'

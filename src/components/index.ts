@@ -4,6 +4,7 @@ export { default as CardViewerList } from './cardViewerList';
 export { default as CollectionViewerList } from './collectionViewList';
 export { default as CollectionViewer } from './collectionViewer';
 export { default as dialogModal } from './dialogModal';
+export { default as EmptyList } from './emptyList';
 export { default as Header } from './header';
 export { default as IconDropdown } from './iconDropdown';
 export { default as InputComponent } from './input';
