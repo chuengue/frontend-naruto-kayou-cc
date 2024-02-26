@@ -1,7 +1,8 @@
 import {
   AddToPhotosOutlined,
-  AdminPanelSettings,
+  AdminPanelSettingsOutlined,
   AutoAwesomeMotionOutlined,
+  ContentCopy,
   FavoriteBorderOutlined,
   HomeOutlined,
   LockOutlined,
@@ -37,6 +38,11 @@ export const useSidebarOptions = () => {
       icon: <HomeOutlined />
     },
     {
+      title: t('allCards'),
+      path: '/allCards',
+      icon: <ContentCopy />
+    },
+    {
       title: t('collectionsLabel'),
       icon: <PaddingOutlined />,
       children: [
@@ -61,7 +67,7 @@ export const useSidebarOptions = () => {
       title: t('adminOperations'),
       path: '/admin-panel',
       onlyFor: ['admin'],
-      icon: <AdminPanelSettings />,
+      icon: <AdminPanelSettingsOutlined />,
       children: [
         {
           title: t('cardBaseManagement'),

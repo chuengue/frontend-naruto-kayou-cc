@@ -2,7 +2,7 @@
 import { SidebarOption, useSidebarOptions } from '@/constants/sidebarOptions';
 import { UseAuth } from '@/contexts/authContext/authContext';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import {
@@ -15,7 +15,6 @@ import {
 } from 'react-pro-sidebar';
 import { useShallow } from 'zustand/react/shallow';
 import theme from '../../../theme/theme';
-import SidebarHeader from './components/sidebarHeader.component';
 function SidebarNav() {
   const { push } = useRouter();
   const pathname = usePathname();
@@ -27,7 +26,7 @@ function SidebarNav() {
       setClosed: state.actions.setClosed
     }))
   );
-  const { userData, getUserFetchLoading } = UseAuth();
+  const { userData } = UseAuth();
   function filterSidebarOption(option: SidebarOption) {
     if (option.onlyFor && option.onlyFor.length > 0) {
       if (userData?.roles.some(role => option.onlyFor?.includes(role))) {
@@ -37,12 +36,12 @@ function SidebarNav() {
     }
     return option;
   }
-  console.log({ getUserFetchLoading });
   const menuItemStyles: MenuItemStyles = {
     root: {
       fontSize: '13px',
       fontWeight: 400
     },
+
     icon: {
       color: theme.palette.secondary.main,
       [`&.${menuClasses.disabled}`]: {
@@ -53,7 +52,7 @@ function SidebarNav() {
       color: '#b6b7b9'
     },
     subMenuContent: {
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: 'transparent'
     },
     button: {
       marginLeft: '10px',
@@ -62,7 +61,7 @@ function SidebarNav() {
         color: theme.palette.grey[400]
       },
       '&:hover': {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.offWhite.main,
         borderRadius: '16px'
       }
     },
@@ -78,23 +77,17 @@ function SidebarNav() {
         onBackdropClick={() => setClosed(false)}
         collapsed={isCollapsed}
         breakPoint="md"
-        backgroundColor={theme.palette.primary.main}
+        backgroundColor="transparent"
         rootStyles={{
-          color: theme.palette.secondary.main
+          color: theme.palette.secondary.main,
+          border: 'none'
         }}
       >
-        <SidebarHeader />
-        <Divider
-          flexItem
-          variant="middle"
-          sx={{ backgroundColor: 'primary.light', mb: '16px' }}
-        />
-
         <Menu menuItemStyles={menuItemStyles}>
           {sidebarOptions.map(option => {
             return option.children ? (
               <SubMenu
-                label={<Typography fontWeight="500">{option.title}</Typography>}
+                label={<Typography fontWeight="400">{option.title}</Typography>}
                 key={option.title}
                 icon={option.icon}
               >
@@ -103,7 +96,7 @@ function SidebarNav() {
                     subOption =>
                       filterSidebarOption(subOption) && (
                         <MenuItem
-                          key={subOption.title} // Corrigido: a chave deve ser definida no MenuItem
+                          key={subOption.title}
                           onClick={() => push(subOption.path)}
                           icon={subOption.icon}
                         >
@@ -130,7 +123,7 @@ function SidebarNav() {
                     }}
                     icon={option.icon}
                   >
-                    <Typography fontWeight="500">{option.title}</Typography>
+                    <Typography fontWeight="400">{option.title}</Typography>
                   </MenuItem>
                 )}
               </React.Fragment>
