@@ -26,7 +26,6 @@ export default function Home() {
   };
   const parseCollections = parseCollectionsForList();
 
-  console.log(isLoading);
   return (
     <>
       <Stack
@@ -42,6 +41,7 @@ export default function Home() {
         <Box>
           <Skeleton
             variant="rectangular"
+            animation="wave"
             height="300px"
             sx={{ borderRadius: '16px' }}
           />

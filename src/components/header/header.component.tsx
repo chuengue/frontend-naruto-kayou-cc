@@ -14,6 +14,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { useShallow } from 'zustand/react/shallow';
 import Button from '../button';
 import UserMenuHeader from './components/headerMenuAvatar';
@@ -23,10 +24,10 @@ import SwitchLocale from './components/switchLocale';
 const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
   const t = useTranslations('header');
-  const { toggleClosed } = useSidebarStore(
+  const { toggleClosed, toggleCollapsed } = useSidebarStore(
     useShallow(state => ({
-      toggled: state.state.isClosed,
-      toggleClosed: state.actions.toggleClosed
+      toggleClosed: state.actions.toggleClosed,
+      toggleCollapsed: state.actions.toggleCollapsed
     }))
   );
   const { isAuthenticated, getUserFetchLoading } = UseAuth();
@@ -35,15 +36,6 @@ const Header = () => {
   useEffect(() => {
     setIsLoading(getUserFetchLoading);
   }, [getUserFetchLoading, isAuthenticated]);
-  // const [searchParams, setSearchParams] = useState({
-  //   box: '',
-  //   page: 1,
-  //   limit: 10,
-  //   name: '',
-  //   code: ''
-  // });
-
-  // const [searchParamsName, setSearchParamsName] = useState<string>('');
 
   return (
     <Box mx={3}>
@@ -55,8 +47,8 @@ const Header = () => {
           <Stack
             display="grid"
             direction="row"
-            gridTemplateAreas={"'a b c' 'a b c'"}
-            gridTemplateColumns="2fr 1fr 1fr"
+            gridTemplateAreas={"'a b c d' 'a b c d'"}
+            gridTemplateColumns="1fr 2fr 1fr 1fr"
             gridTemplateRows="auto"
             rowGap={{ xs: '12px', sm: '12px', md: 0 }}
             columnGap={1}
@@ -68,9 +60,9 @@ const Header = () => {
           >
             <Stack
               gridColumn={{
-                xs: 'a-start / c-end',
-                md: 'a-start',
-                lg: 'a-start'
+                xs: 'a-start / d-end',
+                md: 'b-start',
+                lg: 'b-start'
               }}
               style={{ marginLeft: '0px' }}
               gridRow={{ xs: 2, sm: 2, md: 1, lg: 1 }}
@@ -81,9 +73,9 @@ const Header = () => {
               <Stack
                 gridRow={1}
                 gridColumn={{
-                  sm: 'a-start/c-end',
-                  xs: 'a-start/c-end',
-                  md: 'b-start/c-end',
+                  sm: 'b-start/d-end',
+                  xs: 'b-start/d-end',
+                  md: 'b-start/d-end',
                   lg: 'c-start'
                 }}
                 justifySelf="end"
@@ -106,13 +98,15 @@ const Header = () => {
                   gridRow={1}
                   alignItems="center"
                   gridColumn="a-start"
-                  sx={{ display: { sm: 'flex', md: 'none', lg: 'none' } }}
+                  marginLeft="0px !important"
                 >
                   <IconButton
                     size="large"
                     aria-haspopup="true"
                     color="secondary"
-                    onClick={() => toggleClosed()}
+                    onClick={() =>
+                      isMobile ? toggleClosed() : toggleCollapsed()
+                    }
                     sx={{ rotate: '180deg' }}
                   >
                     <MenuOpen />
@@ -122,10 +116,10 @@ const Header = () => {
                 <Stack
                   gridRow={1}
                   gridColumn={{
-                    sm: 'a-start/c-end',
-                    xs: 'a-start/c-end',
-                    md: 'b-start/c-end',
-                    lg: 'c-start'
+                    sm: 'b-start/d-end',
+                    xs: 'b-start/d-end',
+                    md: 'b-start/d-end',
+                    lg: 'd-start'
                   }}
                   direction="row"
                   alignItems="center"

@@ -34,7 +34,7 @@ function SearchBar() {
   const {
     data: allCardsData,
     refetch: allCardsRefetch,
-    isLoading: allCardsIsloading
+    isLoading: allCardsIslLoading
   } = useQuery({
     queryKey: ['all_cards_search'],
     queryFn: () => allCards(api, searchParams),
@@ -44,7 +44,7 @@ function SearchBar() {
   const {
     data: collectionsData,
     refetch: collectionsRefetch,
-    isLoading: collectionsIsloading
+    isLoading: collectionsIsLoading
   } = useQuery({
     queryKey: ['public_collection_search'],
     queryFn: () =>
@@ -160,6 +160,7 @@ function SearchBar() {
         />
       </Box>
       <Box
+        top={{ xs: '116px', sm: '116px', md: '58px' }}
         sx={{
           backgroundColor: 'offWhite.main',
           borderRadius: '0px 0px 12px 12px',
@@ -167,7 +168,7 @@ function SearchBar() {
           maxHeight: onfocusInput ? '400px' : '0',
           overflow: 'scroll',
           position: 'absolute',
-          top: '58px',
+          // top: '58px',
           zIndex: 1,
           width: inputWidth,
           '&::-webkit-scrollbar': {
@@ -178,43 +179,38 @@ function SearchBar() {
         {typeSearch === 'all-cards' && (
           <>
             {allCardsData?.results.map((item, index) => (
-              <>
+              <Box key={item.code}>
                 <ItemList
                   id={item.id}
                   title={item.code}
                   subtitle={item.box}
                   imgSrc={item.imgSrc}
-                  isLoading={allCardsIsloading}
+                  isLoading={allCardsIslLoading}
                 />
                 <>
                   {index < allCardsData.results.length - 1 && (
                     <Divider orientation="horizontal" variant="middle" />
                   )}
                 </>
-              </>
+              </Box>
             ))}
           </>
         )}
         {typeSearch === 'collections' && (
           <>
             {collectionsData?.results.collections.map((collection, index) => (
-              <>
+              <Box key={index}>
                 <ItemList
-                  key={index}
                   id={collection.id}
                   title={collection.title}
                   subtitle={collection.description}
                   author={collection.userData.username}
-                  isLoading={collectionsIsloading}
+                  isLoading={collectionsIsLoading}
                 />
                 {index < collectionsData?.results.collections.length - 1 && (
-                  <Divider
-                    // sx={{ my: '12px' }}
-                    orientation="horizontal"
-                    variant="middle"
-                  />
+                  <Divider orientation="horizontal" variant="middle" />
                 )}
-              </>
+              </Box>
             ))}
           </>
         )}

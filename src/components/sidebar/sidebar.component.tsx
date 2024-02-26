@@ -1,10 +1,11 @@
 'use client';
 import { SidebarOption, useSidebarOptions } from '@/constants/sidebarOptions';
 import { UseAuth } from '@/contexts/authContext/authContext';
+import { usePathname, useRouter } from '@/navigation';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
 import { Box, Typography } from '@mui/material';
-import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import {
   Menu,
   MenuItem,
@@ -15,15 +16,17 @@ import {
 } from 'react-pro-sidebar';
 import { useShallow } from 'zustand/react/shallow';
 import theme from '../../../theme/theme';
+
 function SidebarNav() {
   const { push } = useRouter();
   const pathname = usePathname();
   const { sidebarOptions } = useSidebarOptions();
-  const { isCollapsed, toggled, setClosed } = useSidebarStore(
+  const { isCollapsed, toggled, setClosed, toggleCollapsed } = useSidebarStore(
     useShallow(state => ({
       isCollapsed: state.state.isCollapsed,
       toggled: state.state.isClosed,
-      setClosed: state.actions.setClosed
+      setClosed: state.actions.setClosed,
+      toggleCollapsed: state.actions.toggleCollapsed
     }))
   );
   const { userData } = UseAuth();
@@ -39,7 +42,8 @@ function SidebarNav() {
   const menuItemStyles: MenuItemStyles = {
     root: {
       fontSize: '13px',
-      fontWeight: 400
+      fontWeight: 400,
+      marginTop: '10px'
     },
 
     icon: {
@@ -52,9 +56,9 @@ function SidebarNav() {
       color: '#b6b7b9'
     },
     subMenuContent: {
-      backgroundColor: 'transparent'
+      backgroundColor: '#fff'
     },
-    button: {
+    button: ({ active }) => ({
       marginLeft: '10px',
       marginRight: '10px',
       [`&.${menuClasses.disabled}`]: {
@@ -63,21 +67,40 @@ function SidebarNav() {
       '&:hover': {
         backgroundColor: theme.palette.offWhite.main,
         borderRadius: '16px'
-      }
-    },
+      },
+      backgroundColor: active ? theme.palette.offWhite.main : 'inherit',
+      borderRadius: '16px'
+    }),
     label: ({ open }) => ({
       fontWeight: open ? 600 : undefined
     })
   };
+  const [classNameBar, setClassNameBar] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isCollapsed === true) {
+      setClassNameBar('ps-collapsed');
+    }
+    if (isMobile === true) {
+      return setClassNameBar('ps-sidebar-root ps-broken');
+    }
+    if (isMobile === false) {
+      return setClassNameBar('ps-sidebar-root');
+    }
+  }, [isCollapsed]);
+  if (!classNameBar) {
+    return null;
+  }
   return (
     <Box display="flex" height="100vh">
       <Sidebar
+        className={classNameBar}
         style={{ flex: '0 0 auto' }}
         toggled={toggled}
         onBackdropClick={() => setClosed(false)}
         collapsed={isCollapsed}
+        backgroundColor="#fff"
         breakPoint="md"
-        backgroundColor="transparent"
         rootStyles={{
           color: theme.palette.secondary.main,
           border: 'none'
@@ -88,6 +111,7 @@ function SidebarNav() {
             return option.children ? (
               <SubMenu
                 label={<Typography fontWeight="400">{option.title}</Typography>}
+                active={pathname === option.path}
                 key={option.title}
                 icon={option.icon}
               >
@@ -96,6 +120,7 @@ function SidebarNav() {
                     subOption =>
                       filterSidebarOption(subOption) && (
                         <MenuItem
+                          active={pathname === option.path}
                           key={subOption.title}
                           onClick={() => push(subOption.path)}
                           icon={subOption.icon}

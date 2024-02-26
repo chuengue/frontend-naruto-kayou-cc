@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-
 interface useSidebarStoreProps {
   state: {
     isCollapsed: boolean;
