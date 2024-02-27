@@ -39,7 +39,7 @@ export const useSidebarOptions = () => {
     },
     {
       title: t('allCards'),
-      path: '/allCards',
+      path: '/all-cards',
       icon: <ContentCopy />
     },
     {

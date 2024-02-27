@@ -68,7 +68,9 @@
   "collectionViewer":{
     "cardQuantity": "Cards:",
     "private":"(Privada)",
-    "public": "(Pública)"
+    "public": "(Pública)",
+    "viewMoreButton": "Ver mais"
+
   },
   "home": {
     "collectionsBoxTitle" : "Últimas Coleções Criadas:"

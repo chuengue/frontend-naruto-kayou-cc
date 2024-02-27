@@ -6,12 +6,7 @@
     "signUpBtn": "Sign-up",
     "changeTranslateTooltip": "Change language",
     "myProfileTooltip": "Options"
-  },
-  "index": {
-    "title": {
-      "title": "Hello world"
-    }
-
+  
   },
   "login": {
     "forgotPassword": "Password forgotten ?",
@@ -67,7 +62,8 @@
   "collectionViewer":{
     "cardQuantity": "Cards",
     "private":"(Private)",
-    "public": "(Public)"
+    "public": "(Public)",
+    "viewMoreButton": "View more"
   },
 "home": {
   "collectionsBoxTitle": "Latest Collections Created:"
