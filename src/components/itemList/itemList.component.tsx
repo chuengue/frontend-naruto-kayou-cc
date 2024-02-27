@@ -1,17 +1,8 @@
 'use client';
-import { Person } from '@mui/icons-material';
-import { Box, Skeleton, Stack, Typography } from '@mui/material';
+import { Add, Person } from '@mui/icons-material';
+import { Box, IconButton, Skeleton, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-
-export interface ItemListProps {
-  id: string;
-  title: string;
-  subtitle?: string;
-  imgSrc?: string;
-  author?: string;
-  onClick?: (id: string) => void;
-  isLoading: boolean;
-}
+import { ItemListProps } from './itemList.types';
 
 function ItemList({
   title,
@@ -20,7 +11,10 @@ function ItemList({
   id,
   onClick,
   author,
-  isLoading
+  isLoading,
+  hasAction = false,
+  actionIcon = <Add />,
+  onClickAction
 }: ItemListProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [coverImage, setCoverImage] = useState('');
@@ -85,7 +79,7 @@ function ItemList({
                     src={coverImage.toString()}
                     width="100%"
                     height="100%"
-                    alt={title} // Adicionei o atributo alt para acessibilidade
+                    alt={title}
                   />
                 )}
               </Box>
@@ -104,6 +98,11 @@ function ItemList({
                 {author}
               </Typography>
             </Stack>
+          )}
+          {hasAction && (
+            <IconButton onClick={onClickAction} size="small">
+              {actionIcon}
+            </IconButton>
           )}
         </Stack>
       )}

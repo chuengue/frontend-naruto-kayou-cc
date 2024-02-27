@@ -2,14 +2,7 @@
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import { CollectionViewer } from '..';
 import Button from '../button';
-import { CollectionViewerProps } from '../collectionViewer/collectionViewer.types';
-
-export interface collectionViewListProps {
-  collections: Omit<CollectionViewerProps, 'onClick'>[];
-  isCollapsed?: boolean;
-  title?: string;
-  onClick: (id: string) => void;
-}
+import { collectionViewListProps } from './collectionViewList.types';
 
 function CollectionViewList({
   collections,

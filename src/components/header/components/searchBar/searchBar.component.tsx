@@ -168,7 +168,6 @@ function SearchBar() {
           maxHeight: onfocusInput ? '400px' : '0',
           overflow: 'scroll',
           position: 'absolute',
-          // top: '58px',
           zIndex: 1,
           width: inputWidth,
           '&::-webkit-scrollbar': {

@@ -6,16 +6,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as React from 'react';
 import Button from '../button';
-export interface DialogModalProps {
-  title?: string;
-  description?: string;
-  open: boolean;
-  handleClose: () => void;
-  confirmAction: () => void;
-  cancelAction?: () => void;
-  cancelLabel?: string;
-  confirmLabel: string;
-}
+import { DialogModalProps } from './dialogModal.types';
+
 function DialogModal({
   description,
   handleClose,
