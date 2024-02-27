@@ -1,30 +1,35 @@
 'use client';
 import { CollectionViewerList, EmptyList } from '@/components';
+import { collectionViewListProps } from '@/components/collectionViewList/collectionViewList.types';
 import { usePublicCollectionsQuery } from '@/hooks/usePublicCollectionQuery';
 import { Box, Skeleton, Stack } from '@mui/material';
 import { useTranslations } from 'next-intl';
 
 export default function Home() {
   const t = useTranslations('home');
-  const { data, isError, isLoading } = usePublicCollectionsQuery({
+  const { data, isLoading } = usePublicCollectionsQuery({
     limit: 99
   });
 
-  const parseCollectionsForList = () => {
-    return data?.results.collections.map(collection => {
-      return {
-        id: collection.id,
-        title: collection.title,
-        // coverImgUrl: collection.coverImgUrl,
-        cardQuantity: collection.cardQuantity,
-        isPublic: collection.isPublic,
-        userData: collection.userData
-        // createdAt: collection.createdAt,
-        // updatedAt: collection.updatedAt
-      };
-    });
-  };
-  const parseCollections = parseCollectionsForList();
+  const parseCollectionsForList =
+    (): collectionViewListProps['collections'] => {
+      return (
+        data?.results.collections.map(collection => {
+          return {
+            id: collection.id,
+            title: collection.title,
+            // coverImgUrl: collection.coverImgUrl,
+            cardQuantity: collection.cardQuantity,
+            isPublic: collection.isPublic,
+            userData: collection.userData
+            // createdAt: collection.createdAt,
+            // updatedAt: collection.updatedAt
+          };
+        }) ?? []
+      );
+    };
+  const parseCollections: collectionViewListProps['collections'] =
+    parseCollectionsForList();
 
   return (
     <>
@@ -55,7 +60,7 @@ export default function Home() {
               isCollapsed
               title={t('collectionsBoxTitle')}
               collections={parseCollections}
-              onClick={() => {}}
+              onClick={e => console.log(e)}
             />
           </Stack>
         </Stack>
