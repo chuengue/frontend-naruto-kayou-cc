@@ -3,8 +3,8 @@ import { allCards } from '@/services/requests/cards/get';
 import { CardsParams } from '@/services/requests/cards/types';
 import { useQuery } from '@tanstack/react-query';
 
-export const useCardsQuery = (searchParams: CardsParams) => {
-  const { data, refetch, isLoading, isError } = useQuery({
+export const useCardsQuery = (searchParams?: CardsParams) => {
+  const { data, refetch, isLoading, isError, isFetching } = useQuery({
     queryKey: ['all_cards'],
     queryFn: () => allCards(api, searchParams),
     retry: false,
@@ -12,5 +12,5 @@ export const useCardsQuery = (searchParams: CardsParams) => {
     refetchOnWindowFocus: false
   });
 
-  return { data, refetch, isLoading, isError };
+  return { data, refetch, isLoading, isError, isFetching };
 };

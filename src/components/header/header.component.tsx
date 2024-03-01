@@ -41,7 +41,7 @@ const Header = () => {
     <Box mx={3}>
       <AppBar
         position="static"
-        sx={{ flex: '0 0 auto', bgcolor: 'transparent', boxShadow: 'none' }}
+        sx={{ flex: '0 0 auto', bgcolor: '#fff', boxShadow: 'none' }}
       >
         <Toolbar disableGutters>
           <Stack

@@ -1,6 +1,6 @@
 import { getAuthTokenFromCookie } from '@/functions';
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3333/api';
+export const BASE_URL = 'http://localhost:3333/api';
 const token = getAuthTokenFromCookie();
 export const api = axios.create({
   baseURL: BASE_URL,

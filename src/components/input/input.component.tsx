@@ -3,7 +3,7 @@ import { TextField, TextFieldProps, styled } from '@mui/material';
 import { ReactNode, forwardRef } from 'react';
 
 export interface InputComponentProps extends Omit<TextFieldProps, 'ref'> {
-  label: string;
+  label?: string;
   placeholder: string;
   startContent?: ReactNode;
   endContent?: ReactNode;
@@ -25,10 +25,11 @@ const CustomInput = styled(TextField)(({ theme }) => ({
 
     '& .MuiFilledInput-input': {
       paddingTop: '8px'
+    },
+    '&:focus': {
+      // Estilizando o estado de foco
+      backgroundColor: 'transparent !important' // Defina o estilo desejado ao ser clicado
     }
-    // '&:hover': {
-    //   backgroundColor: theme.palette.primary.light
-    // }
   }
 }));
 

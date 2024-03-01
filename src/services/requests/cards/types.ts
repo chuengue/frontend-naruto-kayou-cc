@@ -12,10 +12,10 @@ export interface NarutoCardsResponse {
   totalItems: number;
 }
 export interface CardsParams {
-  limit: number;
-  page: number;
-  box: string;
-  rarity: string;
-  name: string;
-  code: string;
+  limit?: number;
+  page?: number;
+  box?: string;
+  rarity?: string;
+  name?: string;
+  code?: string;
 }

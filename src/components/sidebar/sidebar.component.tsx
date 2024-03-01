@@ -3,8 +3,8 @@ import { SidebarOption, useSidebarOptions } from '@/constants/sidebarOptions';
 import { UseAuth } from '@/contexts/authContext/authContext';
 import { usePathname, useRouter } from '@/navigation';
 import { useSidebarStore } from '@/stores/auth/sidebarStore';
-import { Box, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Box, Stack, Typography } from '@mui/material';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import {
   Menu,
@@ -17,7 +17,7 @@ import {
 import { useShallow } from 'zustand/react/shallow';
 import theme from '../../../theme/theme';
 
-function SidebarNav() {
+function SidebarNav({ children }: { children: ReactNode }) {
   const { push } = useRouter();
   const pathname = usePathname();
   const { sidebarOptions } = useSidebarOptions();
@@ -43,7 +43,8 @@ function SidebarNav() {
     root: {
       fontSize: '13px',
       fontWeight: 400,
-      marginTop: '10px'
+      marginTop: '10px',
+      paddingLeft: '10px'
     },
 
     icon: {
@@ -59,8 +60,8 @@ function SidebarNav() {
       backgroundColor: '#fff'
     },
     button: ({ active }) => ({
-      marginLeft: '10px',
-      marginRight: '10px',
+      // marginLeft: '10px',
+      // marginRight: '10px',
       [`&.${menuClasses.disabled}`]: {
         color: theme.palette.grey[400]
       },
@@ -107,6 +108,25 @@ function SidebarNav() {
         }}
       >
         <Menu menuItemStyles={menuItemStyles}>
+          {/* <BrowserView>
+            <MenuItem
+              onClick={() => {
+                toggleCollapsed();
+              }}
+              suffix={<MenuOpen />}
+              rootStyles={{
+                marginBottom: '80px',
+                ['.' + menuClasses.button]: {
+                  '&:hover': {
+                    backgroundColor: 'inherit !important'
+                  }
+                }
+              }}
+              icon={isCollapsed ? <MenuOpen /> : null}
+            ></MenuItem>
+          </BrowserView>
+          <SidebarHeader /> */}
+
           {sidebarOptions.map(option => {
             return option.children ? (
               <SubMenu
@@ -156,6 +176,19 @@ function SidebarNav() {
           })}
         </Menu>
       </Sidebar>
+      <Stack
+        width="100%"
+        justifyContent="start"
+        overflow="auto"
+        marginBottom={{
+          xs: '137px',
+          sm: '137px',
+          md: '85px,',
+          lg: '85px'
+        }}
+      >
+        {children}
+      </Stack>
     </Box>
   );
 }

@@ -1,4 +1,6 @@
+'use client';
 import { Header, SidebarNav } from '@/components';
+import React, { Suspense } from 'react';
 
 export default function PrivateLayout({
   children
@@ -6,13 +8,24 @@ export default function PrivateLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        height: '100vh' /* Define a altura total da tela */
+      }}
+    >
       <Header />
-      <div style={{ display: 'flex', flex: 1 }}>
-        <SidebarNav />
-        <div style={{ flex: 1, overflow: 'auto', padding: '18px' }}>
-          {children}
-        </div>
+
+      <div
+        style={{
+          flex: 1
+        }}
+      >
+        <SidebarNav>
+          <Suspense fallback={<p>Loading feed...</p>}>{children}</Suspense>
+        </SidebarNav>
       </div>
     </div>
   );

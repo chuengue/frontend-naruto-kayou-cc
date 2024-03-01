@@ -1,7 +1,6 @@
 'use client';
 import { Add, Person } from '@mui/icons-material';
 import { Box, IconButton, Skeleton, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
 import { ItemListProps } from './itemList.types';
 
 function ItemList({
@@ -16,23 +15,23 @@ function ItemList({
   actionIcon = <Add />,
   onClickAction
 }: ItemListProps) {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [coverImage, setCoverImage] = useState('');
+  // const [isImageLoaded, setIsImageLoaded] = useState(false);
+  // const [coverImage, setCoverImage] = useState('');
 
-  useEffect(() => {
-    if (imgSrc) {
-      const preloadedImage = new Image();
-      preloadedImage.onload = () => {
-        setCoverImage(preloadedImage.src);
-        setIsImageLoaded(true);
-      };
-      preloadedImage.onerror = () => {
-        setIsImageLoaded(true);
-        setCoverImage('/assets/error_image.png');
-      };
-      preloadedImage.src = imgSrc;
-    }
-  }, [imgSrc]);
+  // useEffect(() => {
+  //   if (imgSrc) {
+  //     const preloadedImage = new Image();
+  //     preloadedImage.onload = () => {
+  //       setCoverImage(preloadedImage.src);
+  //       setIsImageLoaded(true);
+  //     };
+  //     preloadedImage.onerror = () => {
+  //       setIsImageLoaded(true);
+  //       setCoverImage('/assets/error_image.png');
+  //     };
+  //     preloadedImage.src = imgSrc;
+  //   }
+  // }, [imgSrc]);
   return (
     <>
       {isLoading ? (
@@ -67,21 +66,16 @@ function ItemList({
           <Stack direction="row">
             {!!imgSrc && (
               <Box ml="16px" mr="24px" width="50px">
-                {!isImageLoaded ? (
+                {/* {!isImageLoaded ? (
                   <Skeleton
                     animation="wave"
                     variant="rectangular"
                     width="50px"
                     height="auto"
                   />
-                ) : (
-                  <img
-                    src={coverImage.toString()}
-                    width="100%"
-                    height="100%"
-                    alt={title}
-                  />
-                )}
+                ) : ( */}
+                <img src={imgSrc} width="100%" height="100%" alt={title} />
+                {/* )} */}
               </Box>
             )}
             <Stack>
