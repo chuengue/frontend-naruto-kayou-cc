@@ -14,8 +14,11 @@ export interface NarutoCardsResponse {
 export interface CardsParams {
   limit?: number;
   page?: number;
-  box?: string;
-  rarity?: string;
+}
+export interface CardPayload {
+  box?: string[];
+  rarity?: string[];
   name?: string;
   code?: string;
+  searchQuery?: string;
 }

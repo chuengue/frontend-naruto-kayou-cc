@@ -1,15 +1,12 @@
 import { api } from '@/services/api';
 import { allCards } from '@/services/requests/cards/get';
 import { CardsParams } from '@/services/requests/cards/types';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const useCardsQuery = (searchParams?: CardsParams) => {
-  const { data, refetch, isLoading, isError, isFetching } = useQuery({
-    queryKey: ['all_cards'],
-    queryFn: () => allCards(api, searchParams),
-    retry: false,
-    staleTime: 1,
-    refetchOnWindowFocus: false
+  const { data, refetch, isLoading, isError, isFetching } = useMutation({
+    mutationKey: ['all_cards'],
+    mutationFn: () => allCards(api, searchParams)
   });
 
   return { data, refetch, isLoading, isError, isFetching };

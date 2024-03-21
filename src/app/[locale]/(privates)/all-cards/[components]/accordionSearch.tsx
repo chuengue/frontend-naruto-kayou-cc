@@ -1,4 +1,5 @@
 import Input from '@/components/input';
+import { raritiesCards } from '@/services/requests/rarities/types';
 import { FilterAltOutlined, Search } from '@mui/icons-material';
 import {
   Accordion,
@@ -6,10 +7,11 @@ import {
   AccordionSummary,
   IconButton,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   styled
 } from '@mui/material';
 import { useState } from 'react';
-import page from '../page';
 
 const AccordionSummaryStyled = styled(AccordionSummary)(() => ({
   '&.MuiButtonBase-root.MuiAccordionSummary-root.Mui-focusVisible': {
@@ -19,22 +21,30 @@ const AccordionSummaryStyled = styled(AccordionSummary)(() => ({
 
 export interface AccordionSearchProps {
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  allRarities: raritiesCards[];
+  selectedRarities: string[];
+  onClickRarities: (rarity: raritiesCards) => void;
   searchParams: {
-    box: string;
     page: number;
     limit: number;
+  };
+  searchPayload: {
+    box: string[];
     name: string;
-    rarity: string;
+    rarity: string[];
     code: string;
     searchQuery: string;
   };
 }
 function AccordionSearch({
   onInputChange,
-  searchParams
+  searchParams,
+  searchPayload,
+  allRarities,
+  onClickRarities,
+  selectedRarities
 }: AccordionSearchProps) {
   const [expandedFilters, setExpandedFilters] = useState(false);
-  console.log(page);
 
   return (
     <Accordion
@@ -55,7 +65,7 @@ function AccordionSearch({
             <Input
               placeholder="Busque por Nome/código"
               onChange={onInputChange}
-              value={searchParams.searchQuery}
+              value={searchPayload.searchQuery || ''}
               fullWidth
               startContent={<Search sx={{ paddingRight: 1 }} />}
             />
@@ -71,16 +81,26 @@ function AccordionSearch({
         </Stack>
       </AccordionSummaryStyled>
       <AccordionDetails>
-        <Input
-          placeholder="Buscar"
-          sx={{ ml: '14px' }}
-          startContent={<Search sx={{ paddingRight: 1 }} />}
-        />
-        <Input
-          placeholder="Buscar"
-          sx={{ ml: '14px' }}
-          startContent={<Search sx={{ paddingRight: 1 }} />}
-        />
+        <Stack>
+          <Stack>
+            <ToggleButtonGroup
+              value={selectedRarities}
+              aria-label="text formatting"
+            >
+              {allRarities.map(rarity => {
+                return (
+                  <ToggleButton
+                    key={rarity.id}
+                    value={rarity.name}
+                    onClick={() => onClickRarities(rarity)}
+                  >
+                    {rarity.name}
+                  </ToggleButton>
+                );
+              })}
+            </ToggleButtonGroup>
+          </Stack>
+        </Stack>
       </AccordionDetails>
     </Accordion>
   );

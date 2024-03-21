@@ -13,18 +13,12 @@ import {
   Select,
   SelectChangeEvent
 } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
 function SearchBar() {
   const inputRef = useRef(null);
   const [searchParams, setSearchParams] = useState({
-    box: '',
-    page: 1,
-    limit: 20,
-    name: '',
-    rarity: '',
-    code: '',
     searchQuery: ''
   });
   const [onfocusInput, setOnfocusInput] = useState(false);
@@ -33,12 +27,21 @@ function SearchBar() {
 
   const {
     data: allCardsData,
-    refetch: allCardsRefetch,
-    isLoading: allCardsIslLoading
-  } = useQuery({
-    queryKey: ['all_cards_search'],
-    queryFn: () => allCards(api, searchParams),
-    refetchOnWindowFocus: false
+    mutate: allCardsRefetch,
+    isPending: allCardsIslLoading
+  } = useMutation({
+    mutationKey: ['all_cards_search'],
+    mutationFn: async () => {
+      try {
+        const responseData = await allCards(api, searchParams, {
+          page: 1,
+          limit: 20
+        });
+        return responseData;
+      } catch (error: unknown) {
+        throw new Error(`Error fetching all cards: ${error.message}`);
+      }
+    }
   });
 
   const {
@@ -94,7 +97,7 @@ function SearchBar() {
     if (typeSearch === 'all-cards') {
       setSearchParams(prevState => ({
         ...prevState,
-        code: value
+        searchQuery: value
       }));
     } else if (typeSearch === 'collections') {
       setSearchParams(prevState => ({

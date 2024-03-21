@@ -1,12 +1,17 @@
 import { ApiType } from '../signIn/signInService';
-import { CardsParams, NarutoCardsResponse } from './types';
+import { CardPayload, CardsParams, NarutoCardsResponse } from './types';
 
 export const allCards = async (
   api: ApiType,
-  params: CardsParams | undefined
+  payload: CardPayload,
+  params?: CardsParams | undefined
 ) => {
-  const response = await api.get<NarutoCardsResponse>(`/naruto-cards`, {
-    params: { ...params }
-  });
+  const response = await api.post<NarutoCardsResponse>(
+    `/naruto-cards`,
+    payload,
+    {
+      params: { ...params }
+    }
+  );
   return response?.data;
 };
